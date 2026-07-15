@@ -3,18 +3,18 @@ import { Schema, model } from "mongoose";
 const AuthScheme = new Schema(
   {
     username: {
-      type: "String",
+      type: String,
       required: [true, "username is required"],
       trim: true,
     },
     email: {
-      type: "String",
+      type: String,
       required: [true, "username is required"],
       trim: true,
       unique: [true, "Email must be unique"],
     },
     password: {
-      type: "String",
+      type: String,
       required: [true, "username is required"],
       trim: true,
     },

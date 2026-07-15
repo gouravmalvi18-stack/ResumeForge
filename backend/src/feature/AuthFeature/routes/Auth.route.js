@@ -2,7 +2,11 @@ import { Router } from "express";
 const router = Router();
 
 //controller
-import { RegisterController } from "../controllers/Auth.controller.js";
+import {
+  RegisterController,
+  VerifyController,
+  LoginController,
+} from "../controllers/Auth.controller.js";
 
 /**
  * @route POST api/auth/register
@@ -10,5 +14,14 @@ import { RegisterController } from "../controllers/Auth.controller.js";
  * @access public
  */
 router.post("/register", RegisterController);
+
+/**
+ * @route GET api/auth/verify-email
+ * @description Verify User's email
+ * @access public
+ */
+router.get("/verify-email", VerifyController);
+
+router.post("/login", LoginController);
 
 export default router;
