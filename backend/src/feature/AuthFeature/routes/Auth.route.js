@@ -4,8 +4,9 @@ const router = Router();
 //controller
 import {
   RegisterController,
-  VerifyController,
+  VerifyEmailController,
   LoginController,
+  RefreshTokenController,
 } from "../controllers/Auth.controller.js";
 
 /**
@@ -20,8 +21,20 @@ router.post("/register", RegisterController);
  * @description Verify User's email
  * @access public
  */
-router.get("/verify-email", VerifyController);
+router.get("/verify-email", VerifyEmailController);
 
+/**
+ * @route POST api/auth/login
+ * @description Login a user
+ * @access public
+ */
 router.post("/login", LoginController);
+
+/**
+ * @route GET api/auth/refreshtoken
+ * @description  Get a new access token using the refresh token
+ * @access private
+ */
+router.get("/refreshtoken", RefreshTokenController);
 
 export default router;

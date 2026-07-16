@@ -7,9 +7,9 @@ const SessionScheme = new Schema(
       ref: "auths",
       required: [true, "userid is required"],
     },
-    refreshtokonhash: {
+    refreshtokenhash: {
       type: String,
-      required: [true, "refreshtokon is required"],
+      required: [true, "refreshtoken is required"],
     },
     ip: {
       type: String,

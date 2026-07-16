@@ -2,9 +2,12 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
+import config from "../../../config/Env.config.js";
+
 //model
 import AuthModel from "../model/Auth.model.js";
 import OtpModel from "../model/Otp.model.js";
+import SessionModel from "../model/Session.model.js";
 
 //services
 import { genrateOtp, getOtpHtml } from "../utils/Email.utils.js";
@@ -76,11 +79,11 @@ export const RegisterController = async (req, res) => {
 };
 
 /**
- * @name VerifyController
- * @description Verify User's email using OTP
+ * @name VerifyEmailController
+ * @description verify the user with otp and update the user isVerified field to trues
  * @access public
  */
-export const VerifyController = async (req, res) => {
+export const VerifyEmailController = async (req, res) => {
   try {
     const { otp, email } = req.body;
 
@@ -135,16 +138,180 @@ export const VerifyController = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: `Register ERR :: ${error}`,
+      message: `Verify-Email ERR :: ${error}`,
     });
   }
 };
 
-export const LoginController = (req, res) => {
+/**
+ * @name LoginController
+ * @description Login a User using email and password and in res send the refresh token and access token
+ * @access public
+ */
+export const LoginController = async (req, res) => {
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
+
+    const RegisterUser = await AuthModel.findOne({ email });
+
+    if (!RegisterUser) {
+      return res.status(401).json({
+        message: "User is not register , or  Invalid email ",
+      });
+    }
+
+    if (!RegisterUser.isVerified) {
+      return res.status(401).json({
+        message: "User is not verified , please verify your email",
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      RegisterUser.password,
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: "Invalid password",
+      });
+    }
+
+    const RefreshToken = jwt.sign(
+      {
+        id: RegisterUser._id,
+        email: RegisterUser.email,
+      },
+      config.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
+    const RefreshTokenHash = crypto
+      .createHash("sha256")
+      .update(RefreshToken)
+      .digest("hex");
+
+    const Session = await SessionModel.create({
+      userid: RegisterUser._id,
+      refreshtokenhash: RefreshTokenHash,
+      ip: req.ip,
+      userAgent: req.headers["user-agent"],
+    });
+
+    const AccessToken = jwt.sign(
+      {
+        id: RegisterUser._id,
+        email: RegisterUser.email,
+        sessionid: Session._id,
+      },
+      config.JWT_SECRET,
+      {
+        expiresIn: "15m",
+      },
+    );
+
+    res.cookie("refreshtoken", RefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.status(200).json({
+      message: "User Login Successfully",
+      accessToken: AccessToken,
+    });
   } catch (error) {
     res.status(500).json({
-      message: `Register ERR :: ${error}`,
+      message: `Login ERR :: ${error}`,
+    });
+  }
+};
+
+/**
+ * @name RefreshTokenController
+ * @description Grant a new access token using the refresh token stored in the cookie.
+ * @access private
+ */
+export const RefreshTokenController = async (req, res) => {
+  try {
+    const { refreshtoken } = req.cookies;
+
+    if (!refreshtoken) {
+      return res.status(400).json({
+        message: "token is required",
+      });
+    }
+
+    const decoded = jwt.verify(refreshtoken, config.JWT_SECRET);
+
+    const refreshtokenhash = crypto
+      .createHash("sha256")
+      .update(refreshtoken)
+      .digest("hex");
+
+    const Session = await SessionModel.findOne({
+      refreshtokenhash,
+      revoked: false,
+    });
+
+    if (!Session) {
+      return res.status(400).json({
+        message: "User already logged out, Please login again!!",
+      });
+    }
+
+    const NewAccessToken = jwt.sign(
+      {
+        id: decoded._id,
+        email: decoded.email,
+        sessionid: Session._id,
+      },
+      config.JWT_SECRET,
+      {
+        expiresIn: "15m",
+      },
+    );
+
+    const NewRefreshtoken = jwt.sign(
+      {
+        id: decoded.id,
+        email: decoded.email,
+      },
+      config.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
+    const NewRefreshtokenhash = crypto
+      .createHash("sha256")
+      .update(NewRefreshtoken)
+      .digest("hex");
+
+    Session.refreshtokenhash = NewRefreshtokenhash;
+    await Session.save();
+
+    res.cookie("refreshtoken", NewRefreshtoken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.status(200).json({
+      message: "NewAccess Token Generated Successfully",
+      NewAccessToken,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `RefreshToken ERR :: ${error}`,
     });
   }
 };
