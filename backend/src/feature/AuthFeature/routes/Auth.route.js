@@ -7,6 +7,8 @@ import {
   VerifyEmailController,
   LoginController,
   RefreshTokenController,
+  LogoutController,
+  LogoutAlldevicesController,
 } from "../controllers/Auth.controller.js";
 
 /**
@@ -17,11 +19,11 @@ import {
 router.post("/register", RegisterController);
 
 /**
- * @route GET api/auth/verify-email
+ * @route POST api/auth/verify-email
  * @description Verify User's email
  * @access public
  */
-router.get("/verify-email", VerifyEmailController);
+router.post("/verify-email", VerifyEmailController);
 
 /**
  * @route POST api/auth/login
@@ -31,10 +33,24 @@ router.get("/verify-email", VerifyEmailController);
 router.post("/login", LoginController);
 
 /**
- * @route GET api/auth/refreshtoken
+ * @route POST api/auth/logout
+ * @description logout a User
+ * @access private
+ */
+router.post("/logout", LogoutController);
+
+/**
+ * @route POST api/auth/logout-alldevices
+ * @description logout a User from all devices
+ * @access private
+ */
+router.post("/logout-alldevices", LogoutAlldevicesController);
+
+/**
+ * @route POST api/auth/refreshtoken
  * @description  Get a new access token using the refresh token
  * @access private
  */
-router.get("/refreshtoken", RefreshTokenController);
+router.post("/refreshtoken", RefreshTokenController);
 
 export default router;

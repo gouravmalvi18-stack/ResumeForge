@@ -8,6 +8,7 @@ import config from "../../../config/Env.config.js";
 import AuthModel from "../model/Auth.model.js";
 import OtpModel from "../model/Otp.model.js";
 import SessionModel from "../model/Session.model.js";
+import TokoneBlacklistModel from "../model/TokenBlacklisting.model.js";
 
 //services
 import { genrateOtp, getOtpHtml } from "../utils/Email.utils.js";
@@ -51,7 +52,7 @@ export const RegisterController = async (req, res) => {
 
     const DeletePreviousOtp = await OtpModel.deleteOne({ email });
 
-    const expriresTime = new Date(Date.now() + 50 * 60 * 1000); //In 5 min
+    const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
 
     const OtpEntry = await OtpModel.create({
       userid: NewUser._id,
@@ -122,9 +123,13 @@ export const VerifyEmailController = async (req, res) => {
       });
     }
 
-    const user = await AuthModel.findByIdAndUpdate(OtpDoc.userid, {
-      isVerified: true,
-    });
+    const user = await AuthModel.findByIdAndUpdate(
+      OtpDoc.userid,
+      {
+        isVerified: true,
+      },
+      { new: true },
+    );
 
     await OtpModel.deleteOne({
       userid: OtpDoc.userid,
@@ -133,7 +138,8 @@ export const VerifyEmailController = async (req, res) => {
     res.status(200).json({
       message: "Email verified successfully",
       user: {
-        email: OtpDoc.email,
+        email: user.email,
+        isVerified: user.isVerified,
       },
     });
   } catch (error) {
@@ -148,6 +154,7 @@ export const VerifyEmailController = async (req, res) => {
  * @description Login a User using email and password and in res send the refresh token and access token
  * @access public
  */
+
 export const LoginController = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -198,6 +205,43 @@ export const LoginController = async (req, res) => {
       .update(RefreshToken)
       .digest("hex");
 
+    const oldSession = await SessionModel.findOne({
+      userid: RegisterUser._id,
+      revoked: true,
+      ip: req.ip,
+    });
+
+    if (oldSession) {
+      await oldSession.updateOne({
+        revoked: false,
+        refreshtokenhash: RefreshTokenHash,
+      });
+
+      const AccessToken = jwt.sign(
+        {
+          id: RegisterUser._id,
+          email: RegisterUser.email,
+          sessionid: oldSession._id,
+        },
+        config.JWT_SECRET,
+        {
+          expiresIn: "15m",
+        },
+      );
+
+      res.cookie("refreshtoken", RefreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
+      return res.status(200).json({
+        message: "User Login Successfully",
+        accessToken: AccessToken,
+      });
+    }
+
     const Session = await SessionModel.create({
       userid: RegisterUser._id,
       refreshtokenhash: RefreshTokenHash,
@@ -236,6 +280,106 @@ export const LoginController = async (req, res) => {
 };
 
 /**
+ * @name LogoutController
+ * @description logout a user from single device
+ * @access private
+ */
+export async function LogoutController(req, res) {
+  try {
+    const { refreshtoken } = req.cookies;
+
+    if (!refreshtoken) {
+      return res.status(400).json({
+        message: "Refresh token is required",
+      });
+    }
+    const decoded = await jwt.verify(refreshtoken, config.JWT_SECRET);
+
+    const refreshtokenhash = crypto
+      .createHash("sha256")
+      .update(refreshtoken)
+      .digest("hex");
+
+    const Session = await SessionModel.findOne({
+      refreshtokenhash,
+      revoked: false,
+    });
+
+    if (!Session) {
+      return res.status(400).json({
+        message:
+          "User already logged out or session not found, Please login again!!",
+      });
+    }
+
+    Session.revoked = true;
+    await Session.save();
+
+    // blacklisted a RefreshToken
+    await TokoneBlacklistModel.create({
+      token: refreshtokenhash,
+    });
+
+    res.clearCookie("refreshtoken");
+
+    res.status(200).json({
+      message: "User logged out successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `Logout ERR :: ${error}`,
+    });
+  }
+}
+
+/**
+ * @name LogoutAlldevicesController
+ * @description logout a user from all device
+ * @access private
+ */
+export async function LogoutAlldevicesController(req, res) {
+  try {
+    const { refreshtoken } = req.cookies;
+
+    if (!refreshtoken) {
+      return res.status(400).json({
+        message: "Refresh token is required",
+      });
+    }
+    const decoded = await jwt.verify(refreshtoken, config.JWT_SECRET);
+
+    const AllloginUser = await SessionModel.find({
+      userid: decoded.id,
+      revoked: false,
+    });
+
+    if (AllloginUser.length > 0) {
+      // use for of for Sequential execution  and map for Parallel execution
+
+      for (const User of AllloginUser) {
+        User.revoked = true;
+        await User.save();
+
+        const ExpiredRefreshTokens = User.refreshtokenhash;
+
+        // Blacklisting AllRefreshToken
+        await TokoneBlacklistModel.create({
+          token: ExpiredRefreshTokens,
+        });
+      }
+      res.clearCookie("refreshtoken");
+      res.status(200).json({
+        message: "User logged out from all device successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: `LogoutAlldevice ERR :: ${error}`,
+    });
+  }
+}
+
+/**
  * @name RefreshTokenController
  * @description Grant a new access token using the refresh token stored in the cookie.
  * @access private
@@ -256,6 +400,16 @@ export const RefreshTokenController = async (req, res) => {
       .createHash("sha256")
       .update(refreshtoken)
       .digest("hex");
+
+    //checking if the token is blacklisted or not
+    const isTokenBlacklisted = await TokoneBlacklistModel.findOne({
+      token: refreshtokenhash,
+    });
+    if (isTokenBlacklisted) {
+      return res.status(401).json({
+        message: "Token is blacklisted, Please login again!!",
+      });
+    }
 
     const Session = await SessionModel.findOne({
       refreshtokenhash,
@@ -280,6 +434,11 @@ export const RefreshTokenController = async (req, res) => {
       },
     );
 
+    //add the old refresh token into  blacklist table
+    const InvalidRefreshtoken = await TokoneBlacklistModel.create({
+      token: refreshtokenhash,
+    });
+
     const NewRefreshtoken = jwt.sign(
       {
         id: decoded.id,
@@ -290,6 +449,7 @@ export const RefreshTokenController = async (req, res) => {
         expiresIn: "7d",
       },
     );
+
     const NewRefreshtokenhash = crypto
       .createHash("sha256")
       .update(NewRefreshtoken)
