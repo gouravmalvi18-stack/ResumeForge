@@ -282,7 +282,7 @@ export const LoginController = async (req, res) => {
 /**
  * @name LogoutController
  * @description logout a user from single device
- * @access private
+ * @access public
  */
 export async function LogoutController(req, res) {
   try {
@@ -335,7 +335,7 @@ export async function LogoutController(req, res) {
 /**
  * @name LogoutAlldevicesController
  * @description logout a user from all device
- * @access private
+ * @access public
  */
 export async function LogoutAlldevicesController(req, res) {
   try {

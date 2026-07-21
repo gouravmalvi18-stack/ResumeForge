@@ -35,14 +35,14 @@ router.post("/login", LoginController);
 /**
  * @route POST api/auth/logout
  * @description logout a User
- * @access private
+ * @access public
  */
 router.post("/logout", LogoutController);
 
 /**
  * @route POST api/auth/logout-alldevices
  * @description logout a User from all devices
- * @access private
+ * @access public
  */
 router.post("/logout-alldevices", LogoutAlldevicesController);
 
