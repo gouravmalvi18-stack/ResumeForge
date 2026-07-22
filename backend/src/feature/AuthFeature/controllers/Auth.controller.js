@@ -45,32 +45,39 @@ export const RegisterController = async (req, res) => {
       password: passworHash,
     });
 
-    const otp = genrateOtp();
+    // const otp = genrateOtp();
 
-    const html = getOtpHtml(otp);
-    const otphash = crypto.createHash("sha256").update(otp).digest("hex");
+    // const html = getOtpHtml(otp);
+    // const otphash = crypto.createHash("sha256").update(otp).digest("hex");
 
-    const DeletePreviousOtp = await OtpModel.deleteOne({ email });
+    // const DeletePreviousOtp = await OtpModel.deleteOne({ email });
 
-    const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
+    // const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
 
-    const OtpEntry = await OtpModel.create({
-      userid: NewUser._id,
-      email: NewUser.email,
-      otphash,
-      expiresAt: expriresTime,
-    });
+    // const OtpEntry = await OtpModel.create({
+    //   userid: NewUser._id,
+    //   email: NewUser.email,
+    //   otphash,
+    //   expiresAt: expriresTime,
+    // });
 
-    await sendOtp(
-      NewUser.email,
-      "OTP Verification",
-      `Your OTP is ${otp}`,
-      html,
-    );
+    // await sendOtp(
+    //   NewUser.email,
+    //   "OTP Verification",
+    //   `Your OTP is ${otp}`,
+    //   html,
+    // );
 
     res.status(201).json({
       message: "User Register Sucessfully",
-      NewUser,
+      NewUser: {
+        _id: NewUser._id,
+        username: NewUser.username,
+        email: NewUser.email,
+        isVerified: NewUser.isVerified,
+        createdAt: NewUser.createdAt,
+        updatedAt: NewUser.updatedAt,
+      },
     });
   } catch (error) {
     res.status(500).json({
