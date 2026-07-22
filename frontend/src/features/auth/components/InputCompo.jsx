@@ -1,9 +1,9 @@
 import React from "react";
 
-const InputCompo = ({ labelName, InputType, Placeholder }) => {
+const InputCompo = ({ labelName, InputType, Placeholder, register }) => {
   return (
     <div className="flex w-full flex-col gap-2 px-5">
-      <label className="text-sm font-bold tracking-wide text-neutral-300 pl-1">
+      <label className="pl-1 text-sm font-bold tracking-wide text-neutral-300">
         {labelName} <span className="text-red-500">*</span>
       </label>
       <input

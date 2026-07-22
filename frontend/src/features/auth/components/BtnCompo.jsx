@@ -1,9 +1,15 @@
 import React from "react";
 
-const BtnCompo = ({ BtnType, Name, className }) => {
+const BtnCompo = ({
+  BtnType,
+  Name,
+  isSubmitting,
+  WillSumbitText,
+  className,
+}) => {
   return (
-    <button type={BtnType} className={className}>
-      {Name}
+    <button type={BtnType} disabled={isSubmitting} className={className}>
+      {isSubmitting ? `${WillSumbitText}` : `${Name}`}
     </button>
   );
 };
