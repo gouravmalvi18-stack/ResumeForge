@@ -1,7 +1,8 @@
 import axios from "axios";
 
+const Server = import.meta.env.VITE_SERVER_URL;
+
 export const RegisterApi = async ({ username, email, password }) => {
-  const Server = import.meta.env.VITE_SERVER_URL;
   try {
     const res = await axios.post(
       `${Server}/auth/register`,
