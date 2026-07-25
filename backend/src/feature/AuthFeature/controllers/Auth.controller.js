@@ -45,28 +45,28 @@ export const RegisterController = async (req, res) => {
       password: passworHash,
     });
 
-    // const otp = genrateOtp();
+    const otp = genrateOtp();
 
-    // const html = getOtpHtml(otp);
-    // const otphash = crypto.createHash("sha256").update(otp).digest("hex");
+    const html = getOtpHtml(otp);
+    const otphash = crypto.createHash("sha256").update(otp).digest("hex");
 
-    // const DeletePreviousOtp = await OtpModel.deleteOne({ email });
+    const DeletePreviousOtp = await OtpModel.deleteOne({ email });
 
-    // const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
+    const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
 
-    // const OtpEntry = await OtpModel.create({
-    //   userid: NewUser._id,
-    //   email: NewUser.email,
-    //   otphash,
-    //   expiresAt: expriresTime,
-    // });
+    const OtpEntry = await OtpModel.create({
+      userid: NewUser._id,
+      email: NewUser.email,
+      otphash,
+      expiresAt: expriresTime,
+    });
 
-    // await sendOtp(
-    //   NewUser.email,
-    //   "OTP Verification",
-    //   `Your OTP is ${otp}`,
-    //   html,
-    // );
+    await sendOtp(
+      NewUser.email,
+      "OTP Verification",
+      `Your OTP is ${otp}`,
+      html,
+    );
 
     res.status(201).json({
       message: "User Register Sucessfully",
@@ -81,14 +81,14 @@ export const RegisterController = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: `Register ERR :: ${error}`,
+      message: `RegisterController ERR :: ${error}`,
     });
   }
 };
 
 /**
  * @name VerifyEmailController
- * @description verify the user with otp and update the user isVerified field to trues
+ * @description verify the user email with otp and update the user isVerified field to true
  * @access public
  */
 export const VerifyEmailController = async (req, res) => {
@@ -97,7 +97,7 @@ export const VerifyEmailController = async (req, res) => {
 
     if (!otp || !email) {
       return res.status(400).json({
-        message: "Emai and OTP bot are required",
+        message: "Email and OTP both are required",
       });
     }
 
@@ -144,14 +144,52 @@ export const VerifyEmailController = async (req, res) => {
 
     res.status(200).json({
       message: "Email verified successfully",
-      user: {
+      VerifiedUser: {
         email: user.email,
         isVerified: user.isVerified,
       },
     });
   } catch (error) {
     res.status(500).json({
-      message: `Verify-Email ERR :: ${error}`,
+      message: `VerifyEmailController ERR :: ${error}`,
+    });
+  }
+};
+
+/**
+ * @name ResendOtpController
+ * @description Delete the old otp and create a new Otp and send it to the user email
+ * @access public
+ */
+export const ResendOtpController = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const otp = genrateOtp();
+
+    const html = getOtpHtml(otp);
+    const otphash = crypto.createHash("sha256").update(otp).digest("hex");
+
+    const User = await AuthModel.findOne({ email });
+
+    const DeletePreviousOtp = await OtpModel.deleteOne({ email });
+
+    const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
+
+    const OtpEntry = await OtpModel.create({
+      userid: User._id,
+      email: User.email,
+      otphash,
+      expiresAt: expriresTime,
+    });
+
+    await sendOtp(User.email, "OTP Verification", `Your OTP is ${otp}`, html);
+
+    res.status(200).json({
+      message: "New Otp has been send to your Register Email",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `ResendOtpController ERR :: ${error}`,
     });
   }
 };
@@ -281,7 +319,7 @@ export const LoginController = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: `Login ERR :: ${error}`,
+      message: `LoginController ERR :: ${error}`,
     });
   }
 };
@@ -334,7 +372,7 @@ export async function LogoutController(req, res) {
     });
   } catch (error) {
     res.status(500).json({
-      message: `Logout ERR :: ${error}`,
+      message: `LogoutController ERR :: ${error}`,
     });
   }
 }
@@ -381,7 +419,7 @@ export async function LogoutAlldevicesController(req, res) {
     }
   } catch (error) {
     res.status(500).json({
-      message: `LogoutAlldevice ERR :: ${error}`,
+      message: `LogoutAlldevicesController ERR :: ${error}`,
     });
   }
 }
@@ -478,7 +516,7 @@ export const RefreshTokenController = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: `RefreshToken ERR :: ${error}`,
+      message: `RefreshTokenController ERR :: ${error}`,
     });
   }
 };

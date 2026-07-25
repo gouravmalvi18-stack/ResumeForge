@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 
-//controller
+//controllers
 import {
   RegisterController,
   VerifyEmailController,
@@ -9,6 +9,7 @@ import {
   RefreshTokenController,
   LogoutController,
   LogoutAlldevicesController,
+  ResendOtpController,
 } from "../controllers/Auth.controller.js";
 
 /**
@@ -24,6 +25,13 @@ router.post("/register", RegisterController);
  * @access public
  */
 router.post("/verify-email", VerifyEmailController);
+
+/**
+ * @route POST api/auth/resendOtp
+ * @description Create a new Otp
+ * @access public
+ */
+router.post("/resendOtp", ResendOtpController);
 
 /**
  * @route POST api/auth/login

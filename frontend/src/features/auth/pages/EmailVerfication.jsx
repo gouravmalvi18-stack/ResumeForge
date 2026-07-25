@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 //packages
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router";
+import { Toaster } from "react-hot-toast";
 
 //Custom Auth hook
 import { useAuth } from "../hooks/useAuth.hook";
@@ -38,74 +39,132 @@ const EmailVerfication = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
+  const [IsResending, setIsResending] = useState(false);
+  const [ResendTimer, setResendTimer] = useState(59);
 
-  const { User } = useAuth();
-  console.log(User);
+  const navigate = useNavigate();
+  const { User, handleEmailVerification, Loading, handleResendOtp } = useAuth();
 
+  // Otp Handlers
   const UserOtp = async (data) => {
     const { otp } = data;
+    const { email } = User;
 
-    // await handleRegister({ username, email, password });
+    const VerifiedUser = await handleEmailVerification({ otp, email });
 
     reset();
+    // if(VerifiedUser) navigate
   };
-  return (
-    <div className="flex min-h-screen justify-center bg-black bg-[radial-gradient(circle_at_80%_100%,rgba(219,39,119,0.25),transparent_55%),radial-gradient(circle_at_20%_0%,rgba(30,27,75,0.4),transparent_50%)] pt-20">
-      <div className="h-110 w-100 rounded-2xl border-[0.5px] border-white/10 pt-6">
-        {/* Title Compo */}
-        <div className="flex w-full flex-col items-center justify-center gap-5">
-          <div className="rounded-full bg-[#c6407cba] p-2">
-            <LockSvg />
-          </div>
-          <h1 className="text-2xl text-text-primary">Email Verification </h1>
-        </div>
-        {/* main Compo  */}
-        <form onSubmit={handleSubmit(UserOtp)} className="w-full p-5">
-          <div className="flex flex-col gap-5 rounded-2xl border-[0.5px] border-white/10 p-6 py-8">
-            {/* Otp Field  */}
-            <div className="flex w-full flex-col gap-2">
-              <label className="pl-1 text-sm font-bold tracking-wide text-text-primary">
-                Enter the OTP <span className="text-red-500">*</span>
-              </label>
-              <input
-                {...register("otp", {
-                  required: "otp is required",
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: "Only numbers are allowed",
-                  },
-                  minLength: { value: 6, message: "minlength of otp is 6" },
-                  maxLength: { value: 6, message: "maxlength of otp is 6" },
-                })}
-                type="text"
-                placeholder="XXXXXX"
-                className="rounded-lg border-[0.5px] border-white/30 py-2 text-center text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
-              />
-              {errors && errors.otp && (
-                <span className="pl-2 text-sm text-red-500">
-                  {errors.otp.message}
-                </span>
-              )}
-            </div>
 
-            {/* Submit btn  */}
-            <BtnCompo
-              isSubmitting={isSubmitting}
-              WillSumbitText="Submitting..."
-              BtnType="submit"
-              Name="Submit"
-              className="rounded-2xl bg-[#c6407cba] py-2 text-center font-extrabold text-neutral-950 transition-all duration-100 ease-in-out hover:cursor-pointer active:scale-90"
-            />
+  const ResendUserOtp = async () => {
+    const { email } = User;
+    setIsResending(true);
+    await handleResendOtp({ email });
+    setIsResending(false);
+  };
+ 
+  // Otp Resend Timer 
+  useEffect(() => {
+    setIsResending(true);
+    const IntervalId = setInterval(() => {
+      setResendTimer((perv) => {
+        if (perv <= 1) {
+          clearInterval(IntervalId);
+          setIsResending(false);
+          return 0;
+        }
+        return perv - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(IntervalId);
+  }, []);
+
+  return (
+    <>
+      <div className="flex min-h-screen justify-center bg-black bg-[radial-gradient(circle_at_80%_100%,rgba(219,39,119,0.25),transparent_55%),radial-gradient(circle_at_20%_0%,rgba(30,27,75,0.4),transparent_50%)] pt-20">
+        {Loading ? (
+          <p className="pt-50 text-4xl text-text-primary">Loading....</p>
+        ) : (
+          <div className="h-120 w-100 rounded-2xl border-[0.5px] border-white/10 pt-6">
+            {/* Title Compo */}
+            <div className="flex w-full flex-col items-center justify-center gap-5">
+              <div className="rounded-full bg-[#c6407cba] p-2">
+                <LockSvg />
+              </div>
+              <h1 className="text-2xl text-text-primary">
+                Email Verification{" "}
+              </h1>
+            </div>
+            {/* main Compo  */}
+            <form onSubmit={handleSubmit(UserOtp)} className="w-full p-5">
+              <div className="flex flex-col gap-5 rounded-2xl border-[0.5px] border-white/10 p-6 py-8">
+                {/* Otp Field  */}
+                <div className="flex w-full flex-col gap-2">
+                  <label className="pl-1 text-sm font-bold tracking-wide text-text-primary">
+                    Enter the OTP <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    {...register("otp", {
+                      required: "otp is required",
+                      pattern: {
+                        value: /^[0-9]*$/,
+                        message: "Only numbers are allowed",
+                      },
+                      minLength: { value: 6, message: "minlength of otp is 6" },
+                      maxLength: { value: 6, message: "maxlength of otp is 6" },
+                    })}
+                    type="text"
+                    placeholder="XXXXXX"
+                    className="rounded-lg border-[0.5px] border-white/30 py-2 text-center text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
+                  />
+                  <div className="flex w-full items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={ResendUserOtp}
+                      disabled={IsResending}
+                      className={`pl-3 text-[12px] font-bold text-text-primary hover:text-[#c6407cba] ${IsResending ? "cursor-not-allowed" : "hover:cursor-pointer"}`}
+                    >
+                      Resend Otp?
+                    </button>
+                    <span className="text-sm text-text-secondary">
+                      00:{ResendTimer}
+                    </span>
+                  </div>
+
+                  {errors && errors.otp && (
+                    <span className="pl-2 text-sm text-red-500">
+                      {errors.otp.message}
+                    </span>
+                  )}
+                </div>
+
+                {/* Submit btn  */}
+                <BtnCompo
+                  isSubmitting={isSubmitting}
+                  WillSumbitText="Submitting..."
+                  BtnType="submit"
+                  Name="Submit"
+                  className="rounded-2xl bg-[#c6407cba] py-2 text-center font-extrabold text-neutral-950 transition-all duration-100 ease-in-out hover:cursor-pointer active:scale-90"
+                />
+              </div>
+              <div className="pl-2"></div>
+            </form>
+            {/* Resend OTP Btn  */}
+
+            <div className="flex w-full flex-col justify-center pb-5">
+              <p className="text-center text-lg text-text-secondary">
+                Check your Register Email
+              </p>
+              <p className="text-center text-sm text-text-primary">
+                {User?.email}
+              </p>
+            </div>
           </div>
-        </form>
-        <div className="flex w-full flex-col justify-center pb-5">
-          <p className="text-center text-lg text-text-secondary">
-            Check your Register Email
-          </p>
-          <p className="text-center text-sm text-text-primary">{User?.email}</p>
-        </div>
+        )}
+        <Toaster position="bottom-right" reverseOrder={false} />
       </div>
-    </div>
+    </>
   );
 };
 

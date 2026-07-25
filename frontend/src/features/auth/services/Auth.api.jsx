@@ -11,6 +11,42 @@ export const RegisterApi = async ({ username, email, password }) => {
     );
     return res.data.NewUser;
   } catch (error) {
-    console.log("RegisterApi ERR ::", error.response);
+    throw {
+      message:
+        error.response?.data?.message || "Something went wrong at Server",
+      status: error.response?.status || 500,
+    };
+  }
+};
+export const EmailVerificationApi = async ({ otp, email }) => {
+  try {
+    const res = await axios.post(
+      `${Server}/auth/verify-email`,
+      { otp, email },
+      { withCredentials: true },
+    );
+    return res.data.VerifiedUser;
+  } catch (error) {
+    throw {
+      message:
+        error.response?.data?.message || "Something went wrong at Server",
+      status: error.response?.status || 500,
+    };
+  }
+};
+export const ResendOtpApi = async ({ email }) => {
+  try {
+    const res = await axios.post(
+      `${Server}/auth/resendOtp`,
+      { email },
+      { withCredentials: true },
+    );
+    return res;
+  } catch (error) {
+    throw {
+      message:
+        error.response?.data?.message || "Something went wrong at Server",
+      status: error.response?.status || 500,
+    };
   }
 };

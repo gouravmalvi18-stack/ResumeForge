@@ -3,6 +3,7 @@ import React from "react";
 //packages
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router";
+import { Toaster } from "react-hot-toast";
 
 //components
 import BtnCompo from "../components/BtnCompo";
@@ -18,13 +19,14 @@ const Resgister = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const { Loading, handleRegister } = useAuth();
+  const { Loading, handleRegister, User } = useAuth();
   const navigate = useNavigate();
 
   const RegisterUser = async (data) => {
     const { username, email, password } = data;
     const NewUser = await handleRegister({ username, email, password });
     reset();
+
     if (NewUser) navigate("/verify-email");
   };
 
@@ -139,6 +141,7 @@ const Resgister = () => {
             </p>
           </div>
         )}
+        <Toaster position="bottom-right" reverseOrder={false} />
       </div>
     </>
   );
