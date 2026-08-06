@@ -2,7 +2,7 @@ import React from "react";
 
 //packages
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router";
+import { Link } from "react-router";
 import { Toaster } from "react-hot-toast";
 
 //components
@@ -20,14 +20,11 @@ const Resgister = () => {
   } = useForm();
 
   const { Loading, handleRegister, User } = useAuth();
-  const navigate = useNavigate();
 
   const RegisterUser = async (data) => {
     const { username, email, password } = data;
-    const NewUser = await handleRegister({ username, email, password });
+    await handleRegister({ username, email, password });
     reset();
-
-    if (NewUser) navigate("/verify-email");
   };
 
   return (

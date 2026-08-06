@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 //packages
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router";
+import { Link } from "react-router";
 import { Toaster } from "react-hot-toast";
 
 //Custom Auth hook
@@ -39,10 +39,10 @@ const EmailVerfication = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
+
   const [IsResending, setIsResending] = useState(false);
   const [ResendTimer, setResendTimer] = useState(59);
 
-  const navigate = useNavigate();
   const { User, handleEmailVerification, Loading, handleResendOtp } = useAuth();
 
   // Otp Handlers
@@ -50,10 +50,9 @@ const EmailVerfication = () => {
     const { otp } = data;
     const { email } = User;
 
-    const VerifiedUser = await handleEmailVerification({ otp, email });
+    await handleEmailVerification({ otp, email });
 
     reset();
-    // if(VerifiedUser) navigate
   };
 
   const ResendUserOtp = async () => {
@@ -62,8 +61,8 @@ const EmailVerfication = () => {
     await handleResendOtp({ email });
     setIsResending(false);
   };
- 
-  // Otp Resend Timer 
+
+  // Otp Resend Timer
   useEffect(() => {
     setIsResending(true);
     const IntervalId = setInterval(() => {
@@ -118,6 +117,7 @@ const EmailVerfication = () => {
                     placeholder="XXXXXX"
                     className="rounded-lg border-[0.5px] border-white/30 py-2 text-center text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
                   />
+                  {/* Resend OTP Btn  */}
                   <div className="flex w-full items-center gap-2">
                     <button
                       type="button"
@@ -128,7 +128,7 @@ const EmailVerfication = () => {
                       Resend Otp?
                     </button>
                     <span className="text-sm text-text-secondary">
-                      00:{ResendTimer}
+                      00 : {ResendTimer}
                     </span>
                   </div>
 
@@ -150,7 +150,6 @@ const EmailVerfication = () => {
               </div>
               <div className="pl-2"></div>
             </form>
-            {/* Resend OTP Btn  */}
 
             <div className="flex w-full flex-col justify-center pb-5">
               <p className="text-center text-lg text-text-secondary">

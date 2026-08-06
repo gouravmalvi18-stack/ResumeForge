@@ -135,7 +135,7 @@ export const VerifyEmailController = async (req, res) => {
       {
         isVerified: true,
       },
-      { new: true },
+      { returnDocument: "after" },
     );
 
     await OtpModel.deleteOne({
@@ -230,7 +230,7 @@ export const LoginController = async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: "Invalid password",
       });
     }

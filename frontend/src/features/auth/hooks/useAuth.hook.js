@@ -2,18 +2,23 @@ import { useContext } from "react";
 
 //package
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+
 //Context
 import { AuthContext } from "../Auth.context";
+
 //Auth API
 import {
   RegisterApi,
   EmailVerificationApi,
   ResendOtpApi,
+  LoginApi,
 } from "../services/Auth.api";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  const { User, setUser, Loading, setLoading } = context;
+  const { User, setUser, Loading, setLoading, Token, setToken } = context;
+  const navigate = useNavigate();
 
   const handleRegister = async ({ username, email, password }) => {
     setLoading(true);
@@ -21,7 +26,7 @@ export const useAuth = () => {
       const NewUser = await RegisterApi({ username, email, password });
       setUser({ username: NewUser.username, email: NewUser.email });
 
-      return NewUser;
+      if (NewUser) navigate("/verify-email");
     } catch (error) {
       toast.error(error.message);
       console.log("handleRegister ERR ::", error);
@@ -29,13 +34,13 @@ export const useAuth = () => {
       setLoading(false);
     }
   };
+
   const handleEmailVerification = async ({ otp, email }) => {
     setLoading(true);
     try {
       const VerifiedUser = await EmailVerificationApi({ otp, email });
-      // console.log(VerifiedUser);
 
-      // return VerifiedUser;
+      if (VerifiedUser.isVerified == true) navigate("/login");
     } catch (error) {
       toast.error(error.message);
       console.log("handleRegister ERR ::", error);
@@ -43,6 +48,7 @@ export const useAuth = () => {
       setLoading(false);
     }
   };
+
   const handleResendOtp = async ({ email }) => {
     try {
       const res = await ResendOtpApi({ email });
@@ -54,11 +60,26 @@ export const useAuth = () => {
     }
   };
 
+  const handleLogin = async ({ email, password }) => {
+    setLoading(true);
+    try {
+      const res = await LoginApi({ email, password });
+      setToken(res?.data?.accessToken);
+      if (res.status == 200) navigate("/home");
+    } catch (error) {
+      toast.error(error.message, { duration: 8000 });
+      console.log("handleLogin ERR ::", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     User,
     Loading,
     handleRegister,
     handleEmailVerification,
     handleResendOtp,
+    handleLogin,
   };
 };

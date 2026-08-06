@@ -1,5 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 
+//api
+import { api } from "./services/Auth.api";
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -9,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : null;
   });
   const [Loading, setLoading] = useState(false);
+  const [Token, setToken] = useState(null);
 
   // User Persitent
   useEffect(() => {
@@ -20,7 +24,9 @@ export const AuthProvider = ({ children }) => {
   }, [User]);
 
   return (
-    <AuthContext.Provider value={{ User, setUser, Loading, setLoading }}>
+    <AuthContext.Provider
+      value={{ User, setUser, Loading, setLoading, Token, setToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

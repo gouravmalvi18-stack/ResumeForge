@@ -20,11 +20,11 @@ import {
 router.post("/register", RegisterController);
 
 /**
- * @route POST api/auth/verify-email
+ * @route PATCH api/auth/verify-email
  * @description Verify User's email
  * @access public
  */
-router.post("/verify-email", VerifyEmailController);
+router.patch("/verify-email", VerifyEmailController);
 
 /**
  * @route POST api/auth/resendOtp
