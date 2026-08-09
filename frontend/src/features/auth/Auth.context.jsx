@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   //states
+
   const [User, setUser] = useState(() => {
     const saved = localStorage.getItem("RegisterUser");
     return saved ? JSON.parse(saved) : null;
@@ -23,9 +24,28 @@ export const AuthProvider = ({ children }) => {
     }
   }, [User]);
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const restoreSession = async () => {
+  //     try {
+  //       const res = await api.post("/refreshtoken");
+
+  //       setToken(res?.data?.accessToken || null);
+  //     } catch {
+  //       setToken(null);
+  //       setUser(null);
+  //       navigate("/login");
+  //     } finally {
+  //       setLoading(false);
+  //       setAuthReady(true);
+  //     }
+  //   };
+  //   restoreSession();
+  // }, []);
+
   return (
     <AuthContext.Provider
-      value={{ User, setUser, Loading, setLoading, Token, setToken }}
+      value={{ User, setUser, Loading, setLoading, Token, setToken, AuthReady }}
     >
       {children}
     </AuthContext.Provider>

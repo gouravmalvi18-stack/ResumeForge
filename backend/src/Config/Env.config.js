@@ -11,10 +11,13 @@ if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET Not defined in env variable");
 }
 if (!process.env.EMAIL_USER) {
-  throw new Error("JWT_SECRET Not defined in env variable");
+  throw new Error("EMAIL_USER Not defined in env variable");
 }
 if (!process.env.EMAIL_PASS) {
-  throw new Error("JWT_SECRET Not defined in env variable");
+  throw new Error("EMAIL_PASS Not defined in env variable");
+}
+if (!process.env.GEMINI_AI_API_KEY) {
+  throw new Error("GEMINI_AI_API_KEY Not defined in env variable");
 }
 
 const config = {
@@ -23,5 +26,6 @@ const config = {
   JWT_SECRET: process.env.JWT_SECRET,
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASS: process.env.EMAIL_PASS,
+  GEMINI_AI_API_KEY: process.env.GEMINI_AI_API_KEY,
 };
 export default config;

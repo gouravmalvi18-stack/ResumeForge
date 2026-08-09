@@ -512,7 +512,7 @@ export const RefreshTokenController = async (req, res) => {
 
     res.status(200).json({
       message: "NewAccess Token Generated Successfully",
-      NewAccessToken,
+      accessToken: NewAccessToken,
     });
   } catch (error) {
     res.status(500).json({
