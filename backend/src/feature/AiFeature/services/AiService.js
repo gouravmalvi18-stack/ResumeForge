@@ -4,7 +4,7 @@ import config from "../../../Config/Env.config.js";
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 
-// zod schema for request body validation
+// zod schema validation
 const ReportSchema = z.object({
   matchScore: z
     .number()

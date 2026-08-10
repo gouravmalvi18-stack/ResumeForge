@@ -99,11 +99,11 @@ const AiReportSchema = new Schema(
     behavioralQuestions: [BehavioralQuestionSchema],
     skillGap: [SkillGapSchema],
     preparationPlan: [PreparationPlanSchema],
-    // userId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "auths",
-    //   required: [true, "User ID is required"],
-    // },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "auths",
+      required: [true, "User ID is required"],
+    },
   },
   {
     timestamps: true,

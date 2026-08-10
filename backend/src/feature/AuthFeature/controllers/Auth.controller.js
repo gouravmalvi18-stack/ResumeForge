@@ -302,7 +302,7 @@ export const LoginController = async (req, res) => {
       },
       config.JWT_SECRET,
       {
-        expiresIn: "15m",
+        expiresIn: "30min",
       },
     );
 
