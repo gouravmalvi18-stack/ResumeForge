@@ -17,7 +17,7 @@ app.use(
 
 /**@import routes */
 import AuthRouter from "./feature/AuthFeature/routes/Auth.route.js";
-import AiRouter from "./feature/AiFeture/routes/Ai.route.js";
+import AiRouter from "./feature/AiFeature/routes/Ai.route.js";
 
 // use routes
 app.use("/api/auth", AuthRouter);

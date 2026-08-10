@@ -3,7 +3,6 @@ import config from "../../../Config/Env.config.js";
 // packages
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 
 // zod schema for request body validation
 const ReportSchema = z.object({
@@ -105,24 +104,18 @@ const ai = new GoogleGenAI({
   apiKey: config.GEMINI_AI_API_KEY,
 });
 
-const generateAiReport = async ({
+const GenerateAiReport = async ({
   jobDescription,
   selfDescription,
   resume,
 }) => {
   const prompt = `
 You are an interview preparation expert.
-
 Analyze the candidate details below and generate a report strictly according to the provided schema.
 
-Important rules:
-- Every object in preparationPlan must include a non-empty tasks array.
-- Do not leave tasks empty.
-- Each task must be a concrete action, such as:
-  - "Review JavaScript closures and async/await"
-  - "Practice 3 React interview questions"
-  - "Build a mini REST API with authentication"
-- Do not use placeholders like "TBD", "", or [].
+ Important Note: 
+- if candidate has provided both resume or self-description along wiht job description, then analyze both resume and self-description and job description to generate the report. 
+- if candidate has provided only resume or self-description along with job description, then analyze the provided resume or self-description and job description to generate the report.
 - Return only valid JSON.
 - Make the report practical, role-specific, and focused on interview readiness.
 
@@ -134,20 +127,17 @@ ${selfDescription}
 
 Job Description:
 ${jobDescription}
-
-
 `;
-    const res = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: z.toJSONSchema(ReportSchema),
-      },
-    });
+  const res = await ai.models.generateContent({
+    model: "gemini-3.6-flash",
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: z.toJSONSchema(ReportSchema),
+    },
+  });
 
-    return JSON.parse(res.text)
-
+  return JSON.parse(res.text);
 };
 
-export default generateAiReport;
+export default GenerateAiReport;
