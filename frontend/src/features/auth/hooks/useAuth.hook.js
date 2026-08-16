@@ -13,19 +13,20 @@ import {
   EmailVerificationApi,
   ResendOtpApi,
   LoginApi,
-} from "../services/Auth.api";
+  fetchAllReportApi,
+} from "../services/Auth.api.js";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  const { User, setUser, Loading, setLoading, Token, setToken } = context;
+  const { User, setUser, Loading, setLoading, TokenUpdater } = context;
+
   const navigate = useNavigate();
 
   const handleRegister = async ({ username, email, password }) => {
     setLoading(true);
     try {
       const NewUser = await RegisterApi({ username, email, password });
-      setUser({ username: NewUser.username, email: NewUser.email });
-
+      setUser(NewUser);
       if (NewUser) navigate("/verify-email");
     } catch (error) {
       toast.error(error.message);
@@ -64,15 +65,33 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const res = await LoginApi({ email, password });
-      setToken(res?.data?.accessToken);
-      if (res.status == 200) navigate("/home");
+      TokenUpdater(res.data?.accessToken);
+      setUser(res.data?.AuthUser);
+      if (res.status == 200) navigate("/createReport");
     } catch (error) {
+      TokenUpdater(null);
+      setUser(null);
       toast.error(error.message, { duration: 8000 });
       console.log("handleLogin ERR ::", error);
     } finally {
       setLoading(false);
     }
   };
+
+  // // test only
+  // const handleFetchAllReport = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await fetchAllReportApi();
+
+  //     console.log(res);
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //     console.log("handleFetchAllReport ERR ::", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return {
     User,
@@ -81,5 +100,6 @@ export const useAuth = () => {
     handleEmailVerification,
     handleResendOtp,
     handleLogin,
+    handleFetchAllReport,
   };
 };

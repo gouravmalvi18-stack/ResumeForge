@@ -19,7 +19,7 @@ const Resgister = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const { Loading, handleRegister, User } = useAuth();
+  const { Loading, handleRegister } = useAuth();
 
   const RegisterUser = async (data) => {
     const { username, email, password } = data;

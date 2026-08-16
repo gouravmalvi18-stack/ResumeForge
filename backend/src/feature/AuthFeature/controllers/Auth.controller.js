@@ -270,7 +270,7 @@ export const LoginController = async (req, res) => {
         },
         config.JWT_SECRET,
         {
-          expiresIn: "15m",
+          expiresIn: "30m",
         },
       );
 
@@ -284,6 +284,7 @@ export const LoginController = async (req, res) => {
       return res.status(200).json({
         message: "User Login Successfully",
         accessToken: AccessToken,
+        AuthUser: RegisterUser,
       });
     }
 
@@ -316,6 +317,7 @@ export const LoginController = async (req, res) => {
     res.status(200).json({
       message: "User Login Successfully",
       accessToken: AccessToken,
+      AuthUser: RegisterUser,
     });
   } catch (error) {
     res.status(500).json({
@@ -469,13 +471,13 @@ export const RefreshTokenController = async (req, res) => {
 
     const NewAccessToken = jwt.sign(
       {
-        id: decoded._id,
+        id: decoded.id,
         email: decoded.email,
         sessionid: Session._id,
       },
       config.JWT_SECRET,
       {
-        expiresIn: "15m",
+        expiresIn: "30m",
       },
     );
 
@@ -517,6 +519,34 @@ export const RefreshTokenController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `RefreshTokenController ERR :: ${error}`,
+    });
+  }
+};
+
+/**
+ * @name GetMeController
+ * @description   It will fetch the authenticated user information
+ * @access private
+ */
+export const GetMeController = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    const AuthUser = await AuthModel.findById(id);
+
+    if (!AuthUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Authenticated user fetched successfully",
+      AuthUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `GetMeController ERR :: ${error}`,
     });
   }
 };

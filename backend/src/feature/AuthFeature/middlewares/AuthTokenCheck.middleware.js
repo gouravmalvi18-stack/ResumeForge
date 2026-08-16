@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config from "../../../Config/Env.config.js";
 
 //model
-import SessionModel from "../../AuthFeature/model/Session.model.js";
+import SessionModel from "../model/Session.model.js";
 
 const AuthTokenCheckMiddleware = async (req, res, next) => {
   try {

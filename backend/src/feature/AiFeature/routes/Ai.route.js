@@ -10,7 +10,7 @@ import {
 
 //middleware
 import fileMiddleware from "../middleware/file.middleware.js";
-import AuthTokenCheckMiddleware from "../middleware/AuthTokenCheck.middleware.js";
+import AuthTokenCheckMiddleware from "../../AuthFeature/middlewares/AuthTokenCheck.middleware.js";
 
 /**
  * @route POST api/aiservice/create-report

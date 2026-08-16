@@ -4,8 +4,8 @@ import { createBrowserRouter } from "react-router";
 import Login from "../features/auth/pages/Login";
 import Resgister from "../features/auth/pages/Resgister";
 import EmailVerfication from "../features/auth/pages/EmailVerfication";
-import Home from "../features/auth/pages/Home";
 import ProtechedRoute from "../features/auth/pages/ProtechedRoute";
+import CreateReportPage from "../features/GemmiAi/pages/CreateReportPage";
 
 export const router = createBrowserRouter([
   {
@@ -21,10 +21,10 @@ export const router = createBrowserRouter([
     element: <EmailVerfication />,
   },
   {
-    path: "/home",
+    path: "/createReport",
     element: (
       <ProtechedRoute>
-        <Home />
+        <CreateReportPage />
       </ProtechedRoute>
     ),
   },

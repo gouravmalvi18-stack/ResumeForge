@@ -153,10 +153,7 @@ const EmailVerfication = () => {
 
             <div className="flex w-full flex-col justify-center pb-5">
               <p className="text-center text-lg text-text-secondary">
-                Check your Register Email
-              </p>
-              <p className="text-center text-sm text-text-primary">
-                {User?.email}
+                Check your Register Email Id
               </p>
             </div>
           </div>

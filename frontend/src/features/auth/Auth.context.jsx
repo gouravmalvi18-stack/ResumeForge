@@ -1,51 +1,54 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 
-//api
-import { api } from "./services/Auth.api";
+//axios api instance
+import { api, setaccessToken } from "./services/Api.intances.js";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   //states
-
-  const [User, setUser] = useState(() => {
-    const saved = localStorage.getItem("RegisterUser");
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [User, setUser] = useState(null);
   const [Loading, setLoading] = useState(false);
-  const [Token, setToken] = useState(null);
+  const [AuthInitializing, setAuthInitializing] = useState(true);
 
-  // User Persitent
+  // -------------------------
+  // Token updater
+  // -------------------------
+  const TokenUpdater = (newToken) => {
+    setaccessToken(newToken);
+  };
+
+  // -------------------------
+  // Initial Auth Check
+  // -------------------------
   useEffect(() => {
-    if (User) {
-      localStorage.setItem("RegisterUser", JSON.stringify(User));
-    } else {
-      localStorage.removeItem("RegisterUser");
-    }
-  }, [User]);
+    const initializeAuth = async () => {
+      try {
+        const res = await api.get("/auth/getme");
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const restoreSession = async () => {
-  //     try {
-  //       const res = await api.post("/refreshtoken");
+        setUser(res.data?.AuthUser);
+      } catch (error) {
+        setUser(null);
+        TokenUpdater(null);
+      } finally {
+        setAuthInitializing(false);
+      }
+    };
 
-  //       setToken(res?.data?.accessToken || null);
-  //     } catch {
-  //       setToken(null);
-  //       setUser(null);
-  //       navigate("/login");
-  //     } finally {
-  //       setLoading(false);
-  //       setAuthReady(true);
-  //     }
-  //   };
-  //   restoreSession();
-  // }, []);
+    initializeAuth();
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ User, setUser, Loading, setLoading, Token, setToken, AuthReady }}
+      value={{
+        User,
+        setUser,
+        Loading,
+        setLoading,
+        AuthInitializing,
+        setAuthInitializing,
+        TokenUpdater,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -104,6 +104,11 @@ const ai = new GoogleGenAI({
   apiKey: config.GEMINI_AI_API_KEY,
 });
 
+/**
+ *
+ * @name : GenerateAiReport
+ * @description: Function to generate AI report based on the provided job description, self-description, and resume.
+ */
 const GenerateAiReport = async ({
   jobDescription,
   selfDescription,

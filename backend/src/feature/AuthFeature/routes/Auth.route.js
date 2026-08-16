@@ -10,7 +10,10 @@ import {
   LogoutController,
   LogoutAlldevicesController,
   ResendOtpController,
+  GetMeController,
 } from "../controllers/Auth.controller.js";
+
+import AuthTokenCheckMiddleware from "../middlewares/AuthTokenCheck.middleware.js";
 
 /**
  * @route POST api/auth/register
@@ -60,5 +63,12 @@ router.post("/logout-alldevices", LogoutAlldevicesController);
  * @access private
  */
 router.post("/refreshtoken", RefreshTokenController);
+
+/**
+ * @route GET api/aiservice/getme
+ * @description  Get a auth user
+ * @access private
+ */
+router.get("/getme", AuthTokenCheckMiddleware, GetMeController);
 
 export default router;

@@ -1,7 +1,6 @@
 import React from "react";
 
-//components
-import InputCompo from "../components/InputCompo";
+//component
 import BtnCompo from "../components/BtnCompo";
 
 //packages
