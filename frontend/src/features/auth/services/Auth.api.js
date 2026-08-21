@@ -44,12 +44,3 @@ export const LoginApi = async ({ email, password }) => {
   }
 };
 
-//testing only
-export const fetchAllReportApi = async () => {
-  try {
-    const res = await api.get("/aiservice/getallreport"); // this also
-    return res;
-  } catch (error) {
-    handleApiError(error);
-  }
-};

@@ -74,13 +74,11 @@ export const CreateReportController = async (req, res) => {
 export const GetAllReportController = async (req, res) => {
   try {
     const user = req.user;
-    console.log(user);
 
     const AllReport = await AiReportModel.find({ userId: user?.id });
 
     if (AllReport.length <= 0) {
       return res.status(404).json({
-        user,
         message: "No reports found for the user.",
       });
     }
@@ -122,4 +120,3 @@ export const GetReportByIdController = async (req, res) => {
     });
   }
 };
-

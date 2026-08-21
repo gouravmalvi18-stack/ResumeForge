@@ -78,21 +78,6 @@ export const useAuth = () => {
     }
   };
 
-  // // test only
-  // const handleFetchAllReport = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await fetchAllReportApi();
-
-  //     console.log(res);
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //     console.log("handleFetchAllReport ERR ::", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   return {
     User,
     Loading,
@@ -100,6 +85,5 @@ export const useAuth = () => {
     handleEmailVerification,
     handleResendOtp,
     handleLogin,
-    handleFetchAllReport,
   };
 };

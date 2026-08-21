@@ -104,6 +104,10 @@ const AiReportSchema = new Schema(
       ref: "auths",
       required: [true, "User ID is required"],
     },
+    title : {
+      type: String,
+      required: [true, "Title is required"],
+    },
   },
   {
     timestamps: true,

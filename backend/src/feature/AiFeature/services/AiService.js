@@ -96,7 +96,7 @@ const ReportSchema = z.object({
   title: z
     .string()
     .describe(
-      "The title of the job for which the interview report is generated",
+      "The title of the job for which the interview report is generated and only provide the title not like Full-Stack Developer Interview Preparation Report or Software Engineer Interview Preparation Report etc.. only provide the title of the job like Full-Stack Developer or Software Engineer etc..",
     ),
 });
 
@@ -134,7 +134,7 @@ Job Description:
 ${jobDescription}
 `;
   const res = await ai.models.generateContent({
-    model: "gemini-3.6-flash",
+    model: "gemini-3.5-flash",
     contents: prompt,
     config: {
       responseMimeType: "application/json",
