@@ -32,26 +32,22 @@ const useAi = () => {
   };
 
   // // test only
-  // const handleFetchAllReport = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await fetchAllReportApi();
-
-  //     console.log(res);
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //     console.log("handleFetchAllReport ERR ::", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const handleFetchAllReport = async () => {
+    try {
+      const AllReport = await fetchAllReportApi();
+      setAllReport(AllReport);
+    } catch (error) {
+      toast.error(error.message);
+      console.log("handleFetchAllReport ERR ::", error);
+    }
+  };
 
   return {
     Ailoading,
     Report,
     AllReport,
     handleCreateReport,
-    // handleFetchAllReport,
+    handleFetchAllReport,
   };
 };
 

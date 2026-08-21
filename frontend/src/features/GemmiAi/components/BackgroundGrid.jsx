@@ -2,7 +2,7 @@ import React from "react";
 
 const BackgroundGrid = ({ children }) => {
   return (
-    <div className="dark min-h-screen overflow-hidden bg-surface font-body-md text-on-surface">
+    <div className="min-h-screen overflow-hidden bg-neutral-900/30 font-body-md text-on-surface">
       <div className="relative flex flex-col">
         {/* Decorative Ambient Background */}
         <div className="pointer-events-none absolute inset-0 z-0">

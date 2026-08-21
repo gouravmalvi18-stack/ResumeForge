@@ -75,7 +75,9 @@ export const GetAllReportController = async (req, res) => {
   try {
     const user = req.user;
 
-    const AllReport = await AiReportModel.find({ userId: user?.id });
+    const AllReport = await AiReportModel.find({ userId: user?.id }).sort({
+      createdAt: -1,
+    });
 
     if (AllReport.length <= 0) {
       return res.status(404).json({

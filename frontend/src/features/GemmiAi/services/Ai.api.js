@@ -21,7 +21,7 @@ export const CreateReportApi = async (formdata) => {
 export const fetchAllReportApi = async () => {
   try {
     const res = await api.get("/aiservice/getallreport");
-    return res;
+    return res.data?.AllReport;
   } catch (error) {
     handleApiError(error);
   }

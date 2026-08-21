@@ -13,7 +13,6 @@ import {
   EmailVerificationApi,
   ResendOtpApi,
   LoginApi,
-  fetchAllReportApi,
 } from "../services/Auth.api.js";
 
 export const useAuth = () => {
