@@ -16,9 +16,9 @@ const ProtechedRoute = ({ children }) => {
   }
 
   return (
-    <div className="h-screen bg-neutral-950">
+    <div className="min-h-screen bg-neutral-950">
       {User ? (
-        <div>{children}</div>
+        <>{children}</>
       ) : (
         <div className="flex h-full flex-col items-center justify-center gap-5">
           <p className="text-center text-3xl text-text-primary">

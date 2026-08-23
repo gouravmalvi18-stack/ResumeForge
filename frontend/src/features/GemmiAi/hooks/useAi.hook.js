@@ -31,7 +31,6 @@ const useAi = () => {
     }
   };
 
-  // // test only
   const handleFetchAllReport = async () => {
     try {
       const AllReport = await fetchAllReportApi();

@@ -17,7 +17,6 @@ export const CreateReportApi = async (formdata) => {
   }
 };
 
-// //testing only
 export const fetchAllReportApi = async () => {
   try {
     const res = await api.get("/aiservice/getallreport");

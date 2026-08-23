@@ -198,7 +198,7 @@ const CreateReportPage = () => {
                   <div className="flex h-full w-1/2 justify-center px-13 py-3">
                     <button
                       type="Submit"
-                      className="group relative h-full w-full rounded-2xl bg-gradient-to-r from-primary to-secondary p-[1px] text-sm text-neutral-200"
+                      className="group relative h-full w-full rounded-2xl bg-gradient-to-r from-primary to-secondary p-[1px] text-sm text-neutral-200 transition-all duration-500 ease-in-out hover:scale-105"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-40" />
 
