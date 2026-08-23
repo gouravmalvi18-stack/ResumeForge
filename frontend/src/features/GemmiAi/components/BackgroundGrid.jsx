@@ -1,10 +1,6 @@
-import React from "react";
-import Navbar from "./Navbar";
-
 const BackgroundGrid = ({ children }) => {
   return (
     <>
-      <Navbar />
       <div className="overflow-hidden bg-neutral-900/30 font-body-md text-on-surface">
         <div className="relative flex h-170 flex-col">
           {/* Decorative Ambient Background */}

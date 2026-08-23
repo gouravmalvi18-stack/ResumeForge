@@ -114,7 +114,7 @@ export const GetReportByIdController = async (req, res) => {
 
     res.status(200).json({
       message: "Report fetched successfully.",
-      Report: GetAReport,
+      report: GetAReport,
     });
   } catch (error) {
     res.status(500).json({

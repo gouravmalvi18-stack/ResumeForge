@@ -7,10 +7,13 @@ const ProtechedRoute = ({ children }) => {
 
   if (AuthInitializing) {
     return (
-      <div className="h-screen bg-neutral-950">
-        <p className="pt-50 text-center text-4xl text-text-primary">
-          Loading....
-        </p>
+      <div className="flex h-screen items-center justify-center bg-neutral-950">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-r-2 border-primary"></div>
+          <p className="animate-pulse text-xl font-bold text-neutral-300">
+            Wait a Moment ...
+          </p>
+        </div>
       </div>
     );
   }

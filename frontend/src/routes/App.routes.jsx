@@ -6,6 +6,7 @@ import Resgister from "../features/auth/pages/Resgister";
 import EmailVerfication from "../features/auth/pages/EmailVerfication";
 import ProtechedRoute from "../features/auth/pages/ProtechedRoute";
 import CreateReportPage from "../features/GemmiAi/pages/CreateReportPage";
+import ReportPage from "../features/GemmiAi/pages/ReportPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtechedRoute>
         <CreateReportPage />
+      </ProtechedRoute>
+    ),
+  },
+  {
+    path: "/report/:id",
+    element: (
+      <ProtechedRoute>
+        <ReportPage />
       </ProtechedRoute>
     ),
   },

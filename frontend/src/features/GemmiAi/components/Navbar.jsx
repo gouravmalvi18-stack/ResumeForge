@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
+//context
+import { AuthContext } from "../../auth/Auth.context";
+
+// SVG's
 const BoltSvg = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +21,6 @@ const BoltSvg = () => (
     <path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" />
   </svg>
 );
-
 const LogoutSvg = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -38,11 +41,11 @@ const LogoutSvg = () => (
 );
 
 const Navbar = () => {
-  const [name, setname] = useState("Alex deo");
+  const { User } = useContext(AuthContext);
 
   return (
     <header className="flex items-center justify-between border-b bg-neutral-900/80 px-gutter py-1.5 backdrop-blur-xl">
-      {/* Left Side: Brand */}
+      {/* Left Side: BrandName */}
       <div className="flex h-full items-center gap-2">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-secondary shadow-lg shadow-primary/20">
           <BoltSvg />
@@ -54,10 +57,10 @@ const Navbar = () => {
 
       {/* Right Side: Actions */}
       <div className="flex h-full items-center gap-6">
-        {/* User Badge */}
+        {/* User Name */}
         <div className="flex cursor-pointer items-center gap-2 rounded-full bg-surface-container-high px-4 py-1.5 ring-1 ring-white/5 transition-colors hover:bg-surface-container-highest">
           <span className="text-[14px] font-semibold tracking-wide text-on-surface capitalize">
-            {name}
+            {User.username}
           </span>
         </div>
 

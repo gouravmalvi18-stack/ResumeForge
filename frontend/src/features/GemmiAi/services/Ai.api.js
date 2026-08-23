@@ -25,3 +25,13 @@ export const fetchAllReportApi = async () => {
     handleApiError(error);
   }
 };
+export const fetchReportbyidApi = async (id) => {
+  try {
+    const res = await api.get(`/aiservice/getreport/${id}`);
+    return res.data?.report
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+

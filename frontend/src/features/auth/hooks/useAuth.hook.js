@@ -15,6 +15,19 @@ import {
   LoginApi,
 } from "../services/Auth.api.js";
 
+/**
+ * @name  useAuth
+ * @description It's a custom hook which connect Auth context and Auth api's and also handle loading
+ * 
+ * @returns  
+    User,
+    Loading,
+    handleRegister,
+    handleEmailVerification,
+    handleResendOtp,
+    handleLogin,
+ */
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   const { User, setUser, Loading, setLoading, TokenUpdater } = context;

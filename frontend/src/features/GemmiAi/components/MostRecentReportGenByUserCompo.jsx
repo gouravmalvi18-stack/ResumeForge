@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 //custom hook
 import useAi from "../hooks/useAi.hook";
 
-// return exact time  when it was created based on this format 2026-08-13T07:43:32.294+00:00 which convert into min , hr , day
+// return exact time  when it was created based on this format (2026-08-13T07:43:32.294+00:00) which convert into min , hr , day
 const getRelativeTime = (dateString) => {
   const date = new Date(dateString);
   const now = new Date();
@@ -65,7 +65,7 @@ const ArrowIcon = ({ theme }) => (
   </svg>
 );
 
-const AllReportGenbyUserCompo = () => {
+const MostRecentReportGenByUserCompo = () => {
   const { handleFetchAllReport, AllReport } = useAi();
   useEffect(() => {
     handleFetchAllReport();
@@ -166,4 +166,4 @@ const AllReportGenbyUserCompo = () => {
   );
 };
 
-export default AllReportGenbyUserCompo;
+export default MostRecentReportGenByUserCompo;

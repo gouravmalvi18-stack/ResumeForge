@@ -2,12 +2,30 @@ import { useContext } from "react";
 
 //packages
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router";
+
 //context
 import { AiContext } from "../Ai.context";
 
 // AI api
-import { CreateReportApi, fetchAllReportApi } from "../services/Ai.api";
+import {
+  CreateReportApi,
+  fetchAllReportApi,
+  fetchReportbyidApi,
+} from "../services/Ai.api";
 
+/**
+ * @name useAi
+ * @description It's a custom hook which connect Ai context and Ai api's and also handle  loading
+ * 
+ * @returns  
+    Ailoading,
+    Report,
+    AllReport,
+    handleCreateReport,
+    handleFetchAllReport,
+    handleFetchReportbyid,
+ */
 const useAi = () => {
   const {
     Ailoading,
@@ -17,12 +35,13 @@ const useAi = () => {
     AllReport,
     setAllReport,
   } = useContext(AiContext);
+  const navigate = useNavigate();
 
   const handleCreateReport = async (formdata) => {
     setAiloading(true);
     try {
       const report = await CreateReportApi(formdata);
-      if (report) setReport(report);
+      if (report) navigate(`/report/${report._id}`);
     } catch (error) {
       toast.error(error.message);
       console.log("handleCreateReport ERR ::", error.response);
@@ -40,6 +59,16 @@ const useAi = () => {
       console.log("handleFetchAllReport ERR ::", error);
     }
   };
+  const handleFetchReportbyid = async (id) => {
+    try {
+      const report = await fetchReportbyidApi(id);
+      if (report) setReport(report);
+      console.log(report);
+    } catch (error) {
+      toast.error(error.message);
+      console.log("handleFetchReportbyid ERR ::", error);
+    }
+  };
 
   return {
     Ailoading,
@@ -47,6 +76,7 @@ const useAi = () => {
     AllReport,
     handleCreateReport,
     handleFetchAllReport,
+    handleFetchReportbyid,
   };
 };
 
