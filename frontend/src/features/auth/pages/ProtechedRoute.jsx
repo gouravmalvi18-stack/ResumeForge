@@ -19,11 +19,11 @@ const ProtechedRoute = ({ children }) => {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="bg-neutral-950">
       {User ? (
         <>{children}</>
       ) : (
-        <div className="flex h-full flex-col items-center justify-center gap-5">
+        <div className="flex h-screen flex-col items-center justify-center gap-5">
           <p className="text-center text-3xl text-text-primary">
             Please login to use the ResumeForge
           </p>

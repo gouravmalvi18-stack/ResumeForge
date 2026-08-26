@@ -104,7 +104,7 @@ export const GetAllReportController = async (req, res) => {
 export const GetReportByIdController = async (req, res) => {
   try {
     const { id } = req.params;
-    const GetAReport = await AiReportModel.findById(id);
+    const GetAReport = await AiReportModel.findById(id).select("-jobDescription -selfDescription -resume");
 
     if (!GetAReport) {
       return res.status(404).json({

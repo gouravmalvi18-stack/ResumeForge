@@ -86,12 +86,12 @@ const CreateReportPage = () => {
             <div className="flex flex-col items-center gap-4">
               <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-r-2 border-primary"></div>
               <p className="animate-pulse text-xl font-bold text-neutral-300">
-                Wait a Moment ...
+                Generating Report...
               </p>
             </div>
           </div>
         ) : (
-          <div className="flex w-full gap-6">
+          <div className="flex gap-6">
             {/* Left Side: Form Container */}
             <div className="flex w-full flex-col gap-6 pt-7 lg:w-[65%]">
               {/* Header */}

@@ -60,13 +60,15 @@ const useAi = () => {
     }
   };
   const handleFetchReportbyid = async (id) => {
+    setAiloading(true);
     try {
       const report = await fetchReportbyidApi(id);
       if (report) setReport(report);
-      console.log(report);
     } catch (error) {
       toast.error(error.message);
       console.log("handleFetchReportbyid ERR ::", error);
+    } finally {
+      setAiloading(false);
     }
   };
 
