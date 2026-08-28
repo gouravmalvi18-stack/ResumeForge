@@ -1,20 +1,7 @@
 import React from "react";
 
-const CheckMarkIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 12l5 5l10 -10"></path>
-  </svg>
-);
+//Icon
+import { CheckMarkIcon } from "./AllIconInSvg";
 
 export default function PrepPlanCompo({ plan = [] }) {
   // Fallback state if no plan data is generated yet

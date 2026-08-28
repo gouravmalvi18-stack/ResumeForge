@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 // compo
 import BackgroundGrid from "../components/BackgroundGrid";
 import MostRecentReportGenByUserCompo from "../components/MostRecentReportGenByUserCompo";
+import { UploadFileIcon } from "../components/AllIconInSvg";
 
 // custom hooks
 import useAi from "../hooks/useAi.hook";
@@ -57,26 +58,6 @@ const CreateReportPage = () => {
     },
   });
 
-  //  Svg
-  const UploadFileSvg = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="text-neutral-500 transition-colors group-hover:text-primary"
-    >
-      <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-      <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-      <path d="M12 11v6"></path>
-      <path d="M9.5 13.5l2.5 -2.5l2.5 2.5"></path>
-    </svg>
-  );
-
   return (
     <>
       <Navbar />
@@ -104,10 +85,7 @@ const CreateReportPage = () => {
               </div>
 
               {/* main compo */}
-              <form
-                onSubmit={handleSubmit(CreateReport, onError)}
-                className="animate-fade-in-up delay-100"
-              >
+              <form onSubmit={handleSubmit(CreateReport, onError)}>
                 <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-neutral-900/60 p-4 shadow-xl backdrop-blur-md md:p-6">
                   {/* Job Description */}
                   <div className="flex flex-col gap-2">
@@ -160,7 +138,7 @@ const CreateReportPage = () => {
                         onClick={() => FileInputRef.current?.click()}
                         className="group flex min-h-[140px] flex-1 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-neutral-700 bg-neutral-950/40 p-4 text-center transition-all hover:border-primary hover:bg-neutral-950/70"
                       >
-                        <UploadFileSvg />
+                        <UploadFileIcon />
                         <div>
                           <h3 className="text-sm font-bold text-neutral-300 transition-colors group-hover:text-primary">
                             Click to Upload

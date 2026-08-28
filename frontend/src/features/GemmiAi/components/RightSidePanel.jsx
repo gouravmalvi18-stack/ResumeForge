@@ -1,11 +1,12 @@
 import React from "react";
 
 export default function RightSidePanel({ matchScore, title, skillGaps }) {
+  // For MatchScore Circle
   const radius = 42;
   const circumference = 2 * Math.PI * radius; // ~263.89
   const strokeDashoffset = circumference - (circumference * matchScore) / 100;
 
-  // Helper function to color-code the match score dynamically
+  // Helper function to color-code the Match score dynamically
   const getScoreTheme = (score) => {
     if (score > 70) {
       return {
@@ -27,7 +28,7 @@ export default function RightSidePanel({ matchScore, title, skillGaps }) {
 
   const scoreTheme = getScoreTheme(matchScore);
 
-  // Helper function to color-code skill gaps based on priority
+  // Helper function to color-code Skill gaps based on priority
   const getPriorityColor = (level) => {
     switch (level?.toLowerCase()) {
       case "high":
