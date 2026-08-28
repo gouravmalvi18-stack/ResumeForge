@@ -13,6 +13,7 @@ import {
   EmailVerificationApi,
   ResendOtpApi,
   LoginApi,
+  LoginOutApi,
 } from "../services/Auth.api.js";
 
 /**
@@ -26,6 +27,7 @@ import {
     handleEmailVerification,
     handleResendOtp,
     handleLogin,
+    handleLogOut
  */
 
 export const useAuth = () => {
@@ -39,6 +41,7 @@ export const useAuth = () => {
     try {
       const NewUser = await RegisterApi({ username, email, password });
       setUser(NewUser);
+
       if (NewUser) navigate("/verify-email");
     } catch (error) {
       toast.error(error.message);
@@ -66,7 +69,7 @@ export const useAuth = () => {
     try {
       const res = await ResendOtpApi({ email });
 
-      toast.success(res.data.message, { duration: 5000 });
+      toast.success(res.data.message, { duration: 8000 });
     } catch (error) {
       toast.error(error.message);
       console.log("handleResendOtp ERR ::", error);
@@ -79,12 +82,27 @@ export const useAuth = () => {
       const res = await LoginApi({ email, password });
       TokenUpdater(res.data?.accessToken);
       setUser(res.data?.AuthUser);
-      if (res.status == 200) navigate("/createReport");
+      toast.success(res.data.message, { duration: 8000 });
+      if (res.status === 200) navigate("/createReport");
     } catch (error) {
       TokenUpdater(null);
       setUser(null);
       toast.error(error.message, { duration: 8000 });
       console.log("handleLogin ERR ::", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogOut = async () => {
+    setLoading(true);
+    try {
+      const res = await LoginOutApi();
+      toast.success(res.data.message, { duration: 8000 });
+      if (res.status === 200) navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
+      console.log("handleLoginOut ERR ::", error);
     } finally {
       setLoading(false);
     }
@@ -97,5 +115,6 @@ export const useAuth = () => {
     handleEmailVerification,
     handleResendOtp,
     handleLogin,
+    handleLogOut,
   };
 };

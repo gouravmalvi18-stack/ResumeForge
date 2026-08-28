@@ -6,7 +6,6 @@ import BtnCompo from "../components/BtnCompo";
 //packages
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { Toaster } from "react-hot-toast";
 
 //custom hook
 import { useAuth } from "../hooks/useAuth.hook";
@@ -112,7 +111,6 @@ const Login = () => {
             </p>
           </div>
         )}
-        <Toaster position="bottom-right" reverseOrder={false} />
       </div>
     </>
   );

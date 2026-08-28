@@ -40,8 +40,9 @@ const useAi = () => {
   const handleCreateReport = async (formdata) => {
     setAiloading(true);
     try {
-      const report = await CreateReportApi(formdata);
-      if (report) navigate(`/report/${report._id}`);
+      const res = await CreateReportApi(formdata);
+      toast.success(res?.data?.message, { duration: 8000 });
+      if (res.status === 201) navigate(`/report/${res.data.report._id}`);
     } catch (error) {
       toast.error(error.message);
       console.log("handleCreateReport ERR ::", error.response);

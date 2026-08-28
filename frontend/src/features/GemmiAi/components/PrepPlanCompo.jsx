@@ -1,7 +1,7 @@
 import React from "react";
 
 //Icon
-import { CheckMarkIcon } from "./AllIconInSvg";
+import { CheckMarkIcon } from "./AllSvg";
 
 export default function PrepPlanCompo({ plan = [] }) {
   // Fallback state if no plan data is generated yet

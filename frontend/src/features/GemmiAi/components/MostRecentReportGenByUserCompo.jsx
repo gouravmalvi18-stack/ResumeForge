@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import useAi from "../hooks/useAi.hook";
 
 // Icons
-import { HistoryIcon, ArrowIcon } from "./AllIconInSvg";
+import { HistoryIcon, ArrowIcon } from "./AllSvg";
 
 // Helper: Returns exact time relative to now
 const getRelativeTime = (dateString) => {

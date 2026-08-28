@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Icon
-import { UpArrIcon } from "./AllIconInSvg";
+import { UpArrIcon } from "./AllSvg";
 
 // Reusable Internal Accordion Component
 const AccordionItem = ({ question, objective, answer }) => {

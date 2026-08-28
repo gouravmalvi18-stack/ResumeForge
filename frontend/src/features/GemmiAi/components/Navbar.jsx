@@ -3,11 +3,20 @@ import React, { useContext, useState } from "react";
 //context
 import { AuthContext } from "../../auth/Auth.context";
 
+// custom hook
+import { useAuth } from "../../auth/hooks/useAuth.hook";
+
 // Icons
-import { BoltIcon, LogoutIcon } from "./AllIconInSvg";
+import { BoltIcon, LogoutIcon } from "./AllSvg";
 
 const Navbar = () => {
   const { User } = useContext(AuthContext);
+  const { handleLogOut } = useAuth();
+
+// LOGOUT fun
+  const LogOutUser = () => {
+    handleLogOut();
+  };
 
   return (
     <header className="flex items-center justify-between border-b bg-neutral-900/80 px-gutter py-1.5 backdrop-blur-xl">
@@ -31,7 +40,10 @@ const Navbar = () => {
         </div>
 
         {/* Logout Button */}
-        <button className="group flex items-center gap-1.5 rounded-lg px-3 py-2 text-[14px] font-semibold tracking-wide text-error transition-all hover:bg-error-container/20">
+        <button
+          onClick={LogOutUser}
+          className="group flex items-center gap-1.5 rounded-lg px-3 py-2 text-[14px] font-semibold tracking-wide text-error transition-all hover:bg-error-container/20"
+        >
           <span className="transition-transform group-hover:-translate-x-1">
             <LogoutIcon />
           </span>

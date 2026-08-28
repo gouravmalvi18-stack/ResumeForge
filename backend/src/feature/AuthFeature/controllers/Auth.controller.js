@@ -340,7 +340,7 @@ export async function LogoutController(req, res) {
         message: "Refresh token is required",
       });
     }
-    const decoded = await jwt.verify(refreshtoken, config.JWT_SECRET);
+    const decoded = jwt.verify(refreshtoken, config.JWT_SECRET);
 
     const refreshtokenhash = crypto
       .createHash("sha256")

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 //packages
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { Toaster } from "react-hot-toast";
 
 //Custom Auth hook
 import { useAuth } from "../hooks/useAuth.hook";
@@ -158,7 +157,6 @@ const EmailVerfication = () => {
             </div>
           </div>
         )}
-        <Toaster position="bottom-right" reverseOrder={false} />
       </div>
     </>
   );

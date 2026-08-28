@@ -44,3 +44,11 @@ export const LoginApi = async ({ email, password }) => {
   }
 };
 
+export const LoginOutApi = async () => {
+  try {
+    const res = await api.post("/auth/logout");
+    return res;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

@@ -2,12 +2,12 @@ import { useRef } from "react";
 
 // packages
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 // compo
 import BackgroundGrid from "../components/BackgroundGrid";
 import MostRecentReportGenByUserCompo from "../components/MostRecentReportGenByUserCompo";
-import { UploadFileIcon } from "../components/AllIconInSvg";
+import { UploadFileIcon } from "../components/AllSvg";
 
 // custom hooks
 import useAi from "../hooks/useAi.hook";
@@ -205,8 +205,6 @@ const CreateReportPage = () => {
             <MostRecentReportGenByUserCompo />
           </div>
         )}
-
-        <Toaster position="bottom-right" reverseOrder={false} />
       </BackgroundGrid>
     </>
   );

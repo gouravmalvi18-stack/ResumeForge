@@ -11,7 +11,7 @@ const handleApiError = (error) => {
 export const CreateReportApi = async (formdata) => {
   try {
     const res = await api.post("/aiservice/create-report", formdata);
-    return res.data?.report;
+    return res;
   } catch (error) {
     handleApiError(error);
   }
@@ -25,13 +25,12 @@ export const fetchAllReportApi = async () => {
     handleApiError(error);
   }
 };
+
 export const fetchReportbyidApi = async (id) => {
   try {
     const res = await api.get(`/aiservice/getreport/${id}`);
-    return res.data?.report
+    return res.data?.report;
   } catch (error) {
     handleApiError(error);
   }
 };
-
-

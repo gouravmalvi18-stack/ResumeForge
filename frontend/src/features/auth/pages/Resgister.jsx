@@ -3,7 +3,6 @@ import React from "react";
 //packages
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { Toaster } from "react-hot-toast";
 
 //components
 import BtnCompo from "../components/BtnCompo";
@@ -138,7 +137,6 @@ const Resgister = () => {
             </p>
           </div>
         )}
-        <Toaster position="bottom-right" reverseOrder={false} />
       </div>
     </>
   );

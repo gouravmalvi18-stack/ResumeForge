@@ -55,7 +55,7 @@ export const CreateReportController = async (req, res) => {
       });
 
       res.status(201).json({
-        message: "AI-based report generated successfully.",
+        message: "AI-based Report generated successfully.",
         report: NewReport,
       });
     }
@@ -104,7 +104,9 @@ export const GetAllReportController = async (req, res) => {
 export const GetReportByIdController = async (req, res) => {
   try {
     const { id } = req.params;
-    const GetAReport = await AiReportModel.findById(id).select("-jobDescription -selfDescription -resume");
+    const GetAReport = await AiReportModel.findById(id).select(
+      "-jobDescription -selfDescription -resume",
+    );
 
     if (!GetAReport) {
       return res.status(404).json({
