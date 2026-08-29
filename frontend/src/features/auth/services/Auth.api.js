@@ -44,9 +44,18 @@ export const LoginApi = async ({ email, password }) => {
   }
 };
 
-export const LoginOutApi = async () => {
+export const LogoutfromCurrentDeviceApi = async () => {
   try {
     const res = await api.post("/auth/logout");
+    return res;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+export const LogoutfromAllDeviceApi = async () => {
+  try {
+    const res = await api.post("/auth/logout-alldevices");
     return res;
   } catch (error) {
     handleApiError(error);

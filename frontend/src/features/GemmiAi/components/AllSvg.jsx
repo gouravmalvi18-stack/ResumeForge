@@ -78,13 +78,12 @@ const BoltIcon = () => (
     <path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" />
   </svg>
 );
-
 // Use in Navbar and Sidebar
-const LogoutIcon = () => (
+const CurrentDeviceLogoutIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -92,10 +91,28 @@ const LogoutIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-    <path d="M9 12h12l-3 -3" />
-    <path d="M18 15l3 -3" />
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+    <line x1="8" y1="21" x2="16" y2="21"></line>
+    <line x1="12" y1="17" x2="12" y2="21"></line>
+  </svg>
+);
+
+// Use in Navbar and Sidebar
+const AlldeviceLogoutIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
   </svg>
 );
 
@@ -191,7 +208,7 @@ const CreteNewReportIcon = () => (
   </svg>
 );
 //Use in QuestionsCompo
-const UpArrIcon = () => (
+const UpArrIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -202,7 +219,7 @@ const UpArrIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up"
+    className={`icon icon-tabler icons-tabler-outline icon-tabler-chevron-up ${className}`}
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M6 15l6 -6l6 6" />
@@ -231,11 +248,12 @@ export {
   HistoryIcon,
   ArrowIcon,
   BoltIcon,
-  LogoutIcon,
   TechnicalCompoIcon,
   BehaviouralCompoIcon,
   PrepPlanCompoIcon,
   CreteNewReportIcon,
   UpArrIcon,
   CheckMarkIcon,
+  CurrentDeviceLogoutIcon,
+  AlldeviceLogoutIcon,
 };

@@ -13,7 +13,8 @@ import {
   EmailVerificationApi,
   ResendOtpApi,
   LoginApi,
-  LoginOutApi,
+  LogoutfromCurrentDeviceApi,
+  LogoutfromAllDeviceApi,
 } from "../services/Auth.api.js";
 
 /**
@@ -27,7 +28,8 @@ import {
     handleEmailVerification,
     handleResendOtp,
     handleLogin,
-    handleLogOut
+    handleLogoutfromCurrentDevice,
+    handleLogoutfromAllDevice
  */
 
 export const useAuth = () => {
@@ -94,15 +96,29 @@ export const useAuth = () => {
     }
   };
 
-  const handleLogOut = async () => {
+  const handleLogoutfromCurrentDevice = async () => {
     setLoading(true);
     try {
-      const res = await LoginOutApi();
+      const res = await LogoutfromCurrentDeviceApi();
       toast.success(res.data.message, { duration: 8000 });
       if (res.status === 200) navigate("/login");
     } catch (error) {
       toast.error(error.message);
-      console.log("handleLoginOut ERR ::", error);
+      console.log("handleLogoutFromCurrenDevice ERR ::", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogoutfromAllDevice = async () => {
+    setLoading(true);
+    try {
+      const res = await LogoutfromAllDeviceApi();
+      toast.success(res.data.message, { duration: 8000 });
+      if (res.status === 200) navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
+      console.log("handleLogoutfromAllDevice ERR ::", error);
     } finally {
       setLoading(false);
     }
@@ -115,6 +131,7 @@ export const useAuth = () => {
     handleEmailVerification,
     handleResendOtp,
     handleLogin,
-    handleLogOut,
+    handleLogoutfromCurrentDevice,
+    handleLogoutfromAllDevice,
   };
 };

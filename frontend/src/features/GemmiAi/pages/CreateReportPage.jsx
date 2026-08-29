@@ -72,7 +72,7 @@ const CreateReportPage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-6 px-4 pb-10 md:px-0 lg:flex-row">
+          <div className="flex flex-col gap-6 px-4 md:px-0 lg:flex-row">
             {/* Left Side: Form Container */}
             <div className="flex w-full flex-col gap-6 pt-7 lg:w-[65%]">
               {/* Header */}
@@ -85,7 +85,10 @@ const CreateReportPage = () => {
               </div>
 
               {/* main compo */}
-              <form onSubmit={handleSubmit(CreateReport, onError)}>
+              <form
+                className="pl-4"
+                onSubmit={handleSubmit(CreateReport, onError)}
+              >
                 <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-neutral-900/60 p-4 shadow-xl backdrop-blur-md md:p-6">
                   {/* Job Description */}
                   <div className="flex flex-col gap-2">

@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { AuthContext } from "../Auth.context";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 const ProtechedRoute = ({ children }) => {
   const { User, AuthInitializing } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   if (AuthInitializing) {
     return (
@@ -18,22 +19,11 @@ const ProtechedRoute = ({ children }) => {
     );
   }
 
-  return (
-    <div className="bg-neutral-950">
-      {User ? (
-        <>{children}</>
-      ) : (
-        <div className="flex h-screen flex-col items-center justify-center gap-5">
-          <p className="text-center text-3xl text-text-primary">
-            Please login to use the ResumeForge
-          </p>
-          <Link className="text-text-primary hover:text-red-900" to="/login">
-            Login
-          </Link>
-        </div>
-      )}
-    </div>
-  );
+  if (User) {
+    return <div className="bg-neutral-950">{children}</div>;
+  } else {
+    navigate("/login");
+  }
 };
 
 export default ProtechedRoute;

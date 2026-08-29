@@ -97,7 +97,7 @@ const MostRecentReportGenByUserCompo = () => {
                 <button
                   key={index}
                   onClick={() => navigate(`/report/${item._id}`)}
-                  className={`group relative flex w-full items-center justify-between overflow-hidden rounded-xl border border-white/5 bg-neutral-900/40 p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-900/80 hover:shadow-xl md:p-5 ${theme.shadow} delay-300`}
+                  className={`group relative flex w-full cursor-pointer items-center justify-between overflow-hidden rounded-xl border border-white/5 bg-neutral-900/40 p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-900/80 hover:shadow-xl md:p-5 ${theme.shadow} delay-300`}
                 >
                   {/* Hover gradient effect dynamically colored */}
                   <div
@@ -136,7 +136,7 @@ const MostRecentReportGenByUserCompo = () => {
 
         {/* View All Button */}
         {AllReport.length > 0 && (
-          <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-neutral-900/30 py-3.5 text-sm font-semibold text-neutral-400 transition-all delay-500 duration-300 hover:border-white/20 hover:bg-neutral-900/60 hover:text-neutral-200">
+          <button className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/10 bg-neutral-900/30 py-3.5 text-sm font-semibold text-neutral-400 transition-all delay-500 duration-300 hover:border-white/20 hover:bg-neutral-900/60 hover:text-neutral-200">
             View All Forges <HistoryIcon />
           </button>
         )}
