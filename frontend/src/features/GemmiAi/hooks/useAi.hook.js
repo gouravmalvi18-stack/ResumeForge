@@ -10,6 +10,7 @@ import { AiContext } from "../Ai.context";
 // AI api
 import {
   CreateReportApi,
+  DeleteAReportApi,
   fetchAllReportApi,
   fetchReportbyidApi,
 } from "../services/Ai.api";
@@ -60,6 +61,7 @@ const useAi = () => {
       console.log("handleFetchAllReport ERR ::", error);
     }
   };
+
   const handleFetchReportbyid = async (id) => {
     setAiloading(true);
     try {
@@ -73,6 +75,19 @@ const useAi = () => {
     }
   };
 
+  const handleDeleteAReport = async (id) => {
+    setAiloading(true);
+    try {
+      const res = await DeleteAReportApi(id);
+      toast.success(res?.data?.message, { duration: 8000 });
+    } catch (error) {
+      toast.error(error.message);
+      console.log("handleDeleteAReport ERR ::", error);
+    } finally {
+      setAiloading(false);
+    }
+  };
+
   return {
     Ailoading,
     Report,
@@ -80,6 +95,7 @@ const useAi = () => {
     handleCreateReport,
     handleFetchAllReport,
     handleFetchReportbyid,
+    handleDeleteAReport,
   };
 };
 

@@ -8,10 +8,10 @@ import toast from "react-hot-toast";
 import BackgroundGrid from "../components/BackgroundGrid";
 import MostRecentReportGenByUserCompo from "../components/MostRecentReportGenByUserCompo";
 import { UploadFileIcon } from "../components/AllSvg";
+import Navbar from "../components/Navbar";
 
 // custom hooks
 import useAi from "../hooks/useAi.hook";
-import Navbar from "../components/Navbar";
 
 const CreateReportPage = () => {
   const {
@@ -22,21 +22,8 @@ const CreateReportPage = () => {
   } = useForm();
 
   const FileInputRef = useRef(null);
+
   const { Ailoading, handleCreateReport } = useAi();
-
-  // Main fun
-  const CreateReport = async (data) => {
-    const formdata = new FormData();
-    formdata.append("jobDescription", data.jobDescription);
-    formdata.append("selfDescription", data?.selfDescription || "");
-    if (data.resume?.[0]) {
-      formdata.append("resume", data.resume[0]);
-    }
-
-    await handleCreateReport(formdata);
-
-    reset();
-  };
 
   // Ui Err this handle incorrect user input
   const onError = () => {
@@ -57,6 +44,20 @@ const CreateReportPage = () => {
       },
     },
   });
+
+  // Main fun which Create Report
+  const CreateReport = async (data) => {
+    const formdata = new FormData();
+    formdata.append("jobDescription", data.jobDescription);
+    formdata.append("selfDescription", data?.selfDescription || "");
+    if (data.resume?.[0]) {
+      formdata.append("resume", data.resume[0]);
+    }
+
+    await handleCreateReport(formdata);
+
+    reset();
+  };
 
   return (
     <>

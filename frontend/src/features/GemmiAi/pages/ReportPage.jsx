@@ -40,7 +40,7 @@ const ReportPage = () => {
       ) : (
         <div className="flex h-screen w-full overflow-hidden text-neutral-50">
           {/* Left Sidebar */}
-          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} id={id} />
 
           {/* Main Content Area */}
           <main className="h-full flex-1 overflow-y-auto scroll-smooth pl-2">

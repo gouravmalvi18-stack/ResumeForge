@@ -45,7 +45,7 @@ export default function RightSidePanel({ matchScore, title, skillGaps }) {
   return (
     <aside className="flex flex-col gap-4 lg:col-span-3">
       {/* Match Score Panel  */}
-      <div className="animate-fade-in-up rounded-lg border border-white/10 bg-[#16181d]/65 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
+      <div className="rounded-lg border border-white/10 bg-[#16181d]/65 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
         <h3 className="mb-4 text-base font-semibold text-[#F3F4F6]">
           Match Score
         </h3>
@@ -98,7 +98,7 @@ export default function RightSidePanel({ matchScore, title, skillGaps }) {
         </div>
       </div>
       {/* Focus Areas (Skill Gaps) Panel  */}
-      <div className="animate-fade-in-up rounded-lg border border-white/10 bg-[#16181d]/65 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md delay-100">
+      <div className="rounded-lg border border-white/10 bg-[#16181d]/65 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
         <h3 className="mb-4 text-base font-semibold text-[#F3F4F6]">
           Skill Gaps
         </h3>

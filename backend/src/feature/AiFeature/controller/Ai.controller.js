@@ -75,9 +75,13 @@ export const GetAllReportController = async (req, res) => {
   try {
     const user = req.user;
 
-    const AllReport = await AiReportModel.find({ userId: user?.id }).sort({
-      createdAt: -1,
-    });
+    const AllReport = await AiReportModel.find({ userId: user?.id })
+      .sort({
+        createdAt: -1,
+      })
+      .select(
+        "-behavioralQuestions -technicalQuestions -preparationPlan -jobDescription -selfDescription  -resume -skillGap -__v ",
+      );
 
     if (AllReport.length <= 0) {
       return res.status(404).json({
@@ -121,6 +125,33 @@ export const GetReportByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `GetReportByIdController ERR :: ${error}`,
+    });
+  }
+};
+
+/**
+ * @name DeleteAReportController
+ * @description  It will delete the a report by id
+ * @access private
+ */
+export const DeleteAReportController = async (req, res) => {
+  try {
+    const id = req?.body?.id;
+
+    const DeleteReport = await AiReportModel.findByIdAndDelete(id);
+
+    if (!DeleteReport) {
+      res.status(400).json({
+        message: "Invalid Report id",
+      });
+    }
+
+    res.status(200).json({
+      message: "Report Deleted Successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `DeleteAReportController ERR :: ${error}`,
     });
   }
 };

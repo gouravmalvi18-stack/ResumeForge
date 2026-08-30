@@ -7,6 +7,7 @@ import EmailVerfication from "../features/auth/pages/EmailVerfication";
 import ProtechedRoute from "../features/auth/pages/ProtechedRoute";
 import CreateReportPage from "../features/GemmiAi/pages/CreateReportPage";
 import ReportPage from "../features/GemmiAi/pages/ReportPage";
+import AllReportPage from "../features/GemmiAi/pages/AllReportPage";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtechedRoute>
         <ReportPage />
+      </ProtechedRoute>
+    ),
+  },
+  {
+    path: "/allreport",
+    element: (
+      <ProtechedRoute>
+        <AllReportPage />
       </ProtechedRoute>
     ),
   },

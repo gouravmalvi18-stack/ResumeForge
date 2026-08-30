@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <header className="z-50 flex items-center justify-between border-b bg-neutral-900/80 px-gutter py-1.5 backdrop-blur-xl">
       {/* Left Side: BrandName */}
-      <div className="flex h-full items-center gap-2">
+      <div className="flex h-full  items-center gap-2">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-secondary shadow-lg shadow-primary/20">
           <BoltIcon />
         </div>

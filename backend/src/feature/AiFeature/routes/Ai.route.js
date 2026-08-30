@@ -6,6 +6,7 @@ import {
   CreateReportController,
   GetAllReportController,
   GetReportByIdController,
+  DeleteAReportController
 } from "../controller/Ai.controller.js";
 
 //middleware
@@ -30,6 +31,15 @@ router.post(
  * @access private
  */
 router.get("/getallreport", AuthTokenCheckMiddleware, GetAllReportController);
+
+/**
+ * @route DELETE api/aiservice/getallreport
+ * @description  Delete a report
+ * @access private
+ */
+router.delete("/getallreport", AuthTokenCheckMiddleware, DeleteAReportController);
+
+
 
 /**
  * @route GET api/aiservice/getreport/:id

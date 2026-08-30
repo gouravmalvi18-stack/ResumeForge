@@ -34,3 +34,12 @@ export const fetchReportbyidApi = async (id) => {
     handleApiError(error);
   }
 };
+
+export const DeleteAReportApi = async (id) => {
+  try {
+    const res = await api.delete("/aiservice/getallreport", { data: { id } });
+    return res;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

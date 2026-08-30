@@ -7,14 +7,14 @@ export default function PrepPlanCompo({ plan = [] }) {
   // Fallback state if no plan data is generated yet
   if (!plan || plan.length === 0) {
     return (
-      <div className="animate-fade-in-up rounded-lg border border-white/10 bg-[#16181d]/65 p-8 text-center shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
+      <div className=" rounded-lg border border-white/10 bg-[#16181d]/65 p-8 text-center shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
         <p className="text-[#8B909A]">No preparation plan available.</p>
       </div>
     );
   }
 
   return (
-    <div className="animate-fade-in-up rounded-lg border border-white/10 bg-[#16181d]/65 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md md:p-8">
+    <div className=" rounded-lg border border-white/10 bg-[#16181d]/65 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md md:p-8">
       {/* Header Section */}
       <div className="mb-10">
         <h2 className="mb-2 text-2xl font-bold text-[#F3F4F6] md:text-3xl">
