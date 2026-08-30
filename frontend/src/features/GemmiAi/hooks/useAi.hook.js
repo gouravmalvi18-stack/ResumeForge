@@ -62,8 +62,9 @@ const useAi = () => {
         error.message === "No reports found for the user."
       ) {
         setAllReport([]);
+      } else {
+        console.log("handleFetchAllReport ERR ::", error);
       }
-      console.log("handleFetchAllReport ERR ::", error);
     }
   };
 
