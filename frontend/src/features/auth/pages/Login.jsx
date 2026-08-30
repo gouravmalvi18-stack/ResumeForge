@@ -1,11 +1,15 @@
-import React from "react";
-
-//component
-import BtnCompo from "../components/BtnCompo";
+import React, { useState } from "react";
 
 //packages
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+
+//component
+import BtnCompo from "../components/BtnCompo";
+import AuthLoader from "../components/AuthLoader";
+
+// --- Icons for Password Toggle ---
+import { EyeIcon, EyeOffIcon } from "../components/AllAuthICon";
 
 //custom hook
 import { useAuth } from "../hooks/useAuth.hook";
@@ -20,6 +24,9 @@ const Login = () => {
 
   const { handleLogin, Loading } = useAuth();
 
+  // State for toggling password visibility
+  const [showPassword, setShowPassword] = useState(false);
+
   const LoginUser = async (data) => {
     const { email, password } = data;
 
@@ -30,19 +37,20 @@ const Login = () => {
   return (
     <>
       <div className="fixed inset-0 -z-10 bg-black bg-[radial-gradient(circle_at_80%_100%,rgba(219,39,119,0.25),transparent_55%),radial-gradient(circle_at_20%_0%,rgba(30,27,75,0.4),transparent_50%)] bg-fixed"></div>
-      <div className="flex min-h-screen w-full items-center justify-center">
+
+      <div className="flex min-h-screen w-full items-center justify-center px-4">
         {Loading ? (
-          <p className="text-4xl text-text-primary">Loading....</p>
+          <AuthLoader text={"Wait a Moment ..."} />
         ) : (
-          <div className="mx-auto flex w-100 flex-col rounded-2xl border-[0.5px] border-white/10 bg-black/10 py-5">
-            {/* Welcome Title  */}
-            <h1 className="w-full text-center text-2xl text-text-primary">
+          <div className="mx-auto flex w-full max-w-md flex-col rounded-2xl border-[0.5px] border-white/10 bg-black/10 py-5 shadow-2xl backdrop-blur-sm">
+            {/* Welcome Title */}
+            <h1 className="w-full text-center text-xl text-text-primary sm:text-2xl">
               Welcome to ResumeForge
             </h1>
 
-            {/* main form compo  */}
-            <div className="mx-6 mt-6 flex flex-col rounded-2xl border-[0.5px] border-white/10 bg-[#0a0a12] pt-2">
-              <h2 className="pl-5 text-center text-lg tracking-wider text-text-primary">
+            {/* main form compo */}
+            <div className="mx-4 mt-6 flex flex-col rounded-2xl border-[0.5px] border-white/10 bg-[#0a0a12] pt-2 shadow-lg sm:mx-6">
+              <h2 className="pl-5 text-center text-base tracking-wider text-text-primary sm:text-lg">
                 Login
               </h2>
 
@@ -50,9 +58,9 @@ const Login = () => {
                 onSubmit={handleSubmit(LoginUser)}
                 className="flex flex-1 flex-col gap-y-5 pt-7"
               >
-                {/* Email Field  */}
-                <div className="flex w-full flex-col gap-2 px-5">
-                  <label className="pl-1 text-sm font-bold tracking-wide text-text-primary">
+                {/* Email Field */}
+                <div className="flex w-full flex-col gap-2 px-4 sm:px-5">
+                  <label className="pl-1 text-xs font-bold tracking-wide text-text-primary sm:text-sm">
                     Email <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -61,7 +69,7 @@ const Login = () => {
                     })}
                     type="email"
                     placeholder="Enter your email"
-                    className="rounded-lg border-[0.5px] border-white/30 px-3 py-2 text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
+                    className="w-full rounded-lg border-[0.5px] border-white/30 bg-transparent px-3 py-2 text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
                   />
                   {errors && errors.email && (
                     <span className="pl-2 text-sm text-red-500">
@@ -70,19 +78,33 @@ const Login = () => {
                   )}
                 </div>
 
-                {/* Password Field */}
-                <div className="flex w-full flex-col gap-2 px-5">
-                  <label className="pl-1 text-sm font-bold tracking-wide text-text-primary">
+                {/* Password Field with Toggle */}
+                <div className="flex w-full flex-col gap-2 px-4 sm:px-5">
+                  <label className="pl-1 text-xs font-bold tracking-wide text-text-primary sm:text-sm">
                     Password <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    {...register("password", {
-                      required: " Password is required",
-                    })}
-                    type="text"
-                    placeholder="Enter your password"
-                    className="rounded-lg border-[0.5px] border-white/30 px-3 py-2 text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
-                  />
+
+                  {/* Relative wrapper for absolute icon positioning */}
+                  <div className="relative w-full">
+                    <input
+                      {...register("password", {
+                        required: " Password is required",
+                      })}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      className="w-full rounded-lg border-[0.5px] border-white/30 bg-transparent px-3 py-2 pr-10 text-sm font-bold text-text-primary placeholder-text-secondary hover:cursor-pointer focus:outline-[0.5px] focus:outline-neutral-300"
+                    />
+
+                    {/* Toggle Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary transition-colors hover:text-text-primary focus:outline-none"
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                  </div>
+
                   {errors && errors.password && (
                     <span className="pl-2 text-sm text-red-500">
                       {errors.password.message}
@@ -90,7 +112,7 @@ const Login = () => {
                   )}
                 </div>
 
-                {/* Submit btn  */}
+                {/* Submit btn (Original Design Restored) */}
                 <BtnCompo
                   isSubmitting={isSubmitting}
                   WillSumbitText="Logging..."
@@ -100,10 +122,11 @@ const Login = () => {
                 />
               </form>
             </div>
-            <p className="mt-4 text-center text-text-secondary">
+
+            <p className="mt-4 text-center text-sm text-text-secondary sm:text-base">
               Account Not Create?{" "}
               <Link
-                className="text-text-primary hover:text-red-900"
+                className="text-text-primary transition-colors hover:text-red-500"
                 to="/register"
               >
                 Register

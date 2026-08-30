@@ -74,7 +74,7 @@ const MostRecentReportGenByUserCompo = () => {
   return (
     <div className="mt-8 flex w-full flex-col gap-6 px-4 lg:w-[35%] lg:px-0">
       {/* Sidebar Header */}
-      <div className="flex items-center gap-3 ">
+      <div className="flex items-center gap-3">
         <div className="h-6 w-1.5 shrink-0 rounded-full bg-secondary"></div>
         <h2 className="text-xl font-bold tracking-tight text-neutral-100 md:text-2xl">
           Your Most Recent Forges
@@ -135,14 +135,12 @@ const MostRecentReportGenByUserCompo = () => {
         )}
 
         {/* View All Button */}
-        {AllReport.length > 0 && (
-          <button
-            onClick={() => navigate("/allreport")}
-            className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/10 bg-neutral-900/30 py-3.5 text-sm font-semibold text-neutral-400 transition-all delay-500 duration-300 hover:border-white/20 hover:bg-neutral-900/60 hover:text-neutral-200"
-          >
-            View All Forges <HistoryIcon />
-          </button>
-        )}
+        <button
+          onClick={() => navigate("/allreport")}
+          className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/10 bg-neutral-900/30 py-3.5 text-sm font-semibold text-neutral-400 transition-all delay-500 duration-300 hover:border-white/20 hover:bg-neutral-900/60 hover:text-neutral-200"
+        >
+          View All Forges <HistoryIcon />
+        </button>
       </div>
     </div>
   );

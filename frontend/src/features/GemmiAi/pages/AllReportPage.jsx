@@ -63,11 +63,11 @@ const AllReportPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [ShowAllReport, setShowAllReport] = useState(false);
 
-  const { handleFetchAllReport, handleDeleteAReport, AllReport = [] } = useAi();
+  const { handleFetchAllReport, handleDeleteAReport, AllReport } = useAi();
 
   useEffect(() => {
     handleFetchAllReport();
-  }, [AllReport]);
+  }, []);
 
   // Filter reports based on search input
   const filteredReports = AllReport.filter((report) =>
@@ -208,7 +208,7 @@ const AllReportPage = () => {
 
             {/* Load More Button */}
             {filteredReports.length > 6 && (
-              <div className=" mt-4 flex justify-center ">
+              <div className="mt-4 flex justify-center">
                 <button
                   onClick={() => setShowAllReport((pre) => !pre)}
                   className="group flex items-center gap-2 rounded-full bg-transparent px-6 py-3 text-sm font-semibold text-[#6348ea] transition-colors hover:bg-[#6348ea]/10"

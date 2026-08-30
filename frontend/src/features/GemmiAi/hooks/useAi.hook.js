@@ -57,7 +57,12 @@ const useAi = () => {
       const AllReport = await fetchAllReportApi();
       setAllReport(AllReport);
     } catch (error) {
-      toast.error(error.message);
+      if (
+        error.status === 404 &&
+        error.message === "No reports found for the user."
+      ) {
+        setAllReport([]);
+      }
       console.log("handleFetchAllReport ERR ::", error);
     }
   };
@@ -80,6 +85,7 @@ const useAi = () => {
     try {
       const res = await DeleteAReportApi(id);
       toast.success(res?.data?.message, { duration: 8000 });
+      if (res.status === 200) handleFetchAllReport();
     } catch (error) {
       toast.error(error.message);
       console.log("handleDeleteAReport ERR ::", error);
