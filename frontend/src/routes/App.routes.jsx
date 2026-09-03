@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
     element: <ResumeForgeLandingPage />,
     children: [
       {
-        index: true, // This renders HeroSection at the "/" path
+        index: true,
         element: <HeroSection />,
       },
       {

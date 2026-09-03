@@ -1,7 +1,36 @@
+import React from "react";
+import { motion } from "motion/react";
+
 const CoreFunctionality = () => {
+  // Variants for staggered children animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
     <section className="mx-auto max-w-5xl px-6 py-20">
-      <div>
+      {/* Header section animates in as a single block */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <h2 className="mb-4 text-center text-2xl font-bold text-white md:text-3xl">
           Core Functionality
         </h2>
@@ -10,21 +39,36 @@ const CoreFunctionality = () => {
           to help you conquer specific job roles by precisely analyzing your
           current skills against actual job requirements.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {/* Grid container handles the staggered reveal of the cards */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 gap-6 md:grid-cols-2"
+      >
         {/* Box 1: Match Score */}
-        <div className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600">
+        <motion.div
+          variants={cardVariants}
+          whileHover={{ y: -4 }}
+          className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600"
+        >
           <h3 className="mb-3 text-lg font-bold text-white">1. Match Score</h3>
           <p className="text-sm text-gray-400">
             A precise 0 to 100 metric that evaluates exactly how much your
             current skillset matches the specific requirements of the job
             description.
           </p>
-        </div>
+        </motion.div>
 
         {/* Box 2: Skill Gap Analysis */}
-        <div className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600">
+        <motion.div
+          variants={cardVariants}
+          whileHover={{ y: -4 }}
+          className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600"
+        >
           <h3 className="mb-3 text-lg font-bold text-white">
             2. Skill Gap Analysis
           </h3>
@@ -40,10 +84,14 @@ const CoreFunctionality = () => {
               Missing: Docker
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Box 3: Interview Questions */}
-        <div className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600">
+        <motion.div
+          variants={cardVariants}
+          whileHover={{ y: -4 }}
+          className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600"
+        >
           <h3 className="mb-3 text-lg font-bold text-white">
             3. Technical & Behavioral Questions
           </h3>
@@ -60,10 +108,14 @@ const CoreFunctionality = () => {
               AI Model Answer Strategy Included
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Box 4: Day-Wise Plan */}
-        <div className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600">
+        <motion.div
+          variants={cardVariants}
+          whileHover={{ y: -4 }}
+          className="flex flex-col rounded-2xl border border-gray-800 bg-[#121214] p-8 transition-colors hover:border-gray-600"
+        >
           <h3 className="mb-3 text-lg font-bold text-white">
             4. Day-Wise Preparation Plan
           </h3>
@@ -90,8 +142,8 @@ const CoreFunctionality = () => {
               </span>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

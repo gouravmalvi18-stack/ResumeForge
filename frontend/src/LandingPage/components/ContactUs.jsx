@@ -1,8 +1,35 @@
-import React from "react";
+import { motion } from "motion/react";
 
 const ContactUs = () => {
+  // Variants for staggered entrance animation of form children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
-    <section className="mx-auto w-full max-w-3xl flex-grow px-6 py-20">
+    // Main section animates the entire content as a block
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="mx-auto w-full max-w-3xl flex-grow px-6  py-20"
+    >
       <div className="mb-12 text-center">
         <h2 className="mb-4 text-3xl font-bold text-white">Contact Us</h2>
         <p className="text-gray-400">
@@ -11,8 +38,15 @@ const ContactUs = () => {
         </p>
       </div>
 
-      <form className="flex flex-col gap-6 rounded-2xl border border-gray-800 bg-[#121214] p-8 shadow-2xl md:p-10">
-        <div className="flex flex-col gap-2">
+      {/* The form container triggers the staggered animation for its children */}
+      <motion.form
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-col gap-6 rounded-2xl border border-gray-800 bg-[#121214] p-8 shadow-2xl md:p-10"
+      >
+        {/* Full Name Field */}
+        <motion.div variants={itemVariants} className="flex flex-col gap-2">
           <label htmlFor="name" className="text-sm font-medium text-gray-300">
             Full Name
           </label>
@@ -22,9 +56,10 @@ const ContactUs = () => {
             placeholder="John Doe"
             className="w-full rounded-lg border border-gray-800 bg-[#0a0a0c] px-4 py-3 text-sm text-white transition-colors focus:border-[#6348ea] focus:ring-1 focus:ring-[#6348ea] focus:outline-none"
           />
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col gap-2">
+        {/* Email Address Field */}
+        <motion.div variants={itemVariants} className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm font-medium text-gray-300">
             Email Address
           </label>
@@ -34,9 +69,10 @@ const ContactUs = () => {
             placeholder="john@example.com"
             className="w-full rounded-lg border border-gray-800 bg-[#0a0a0c] px-4 py-3 text-sm text-white transition-colors focus:border-[#6348ea] focus:ring-1 focus:ring-[#6348ea] focus:outline-none"
           />
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col gap-2">
+        {/* Your Message Textarea */}
+        <motion.div variants={itemVariants} className="flex flex-col gap-2">
           <label
             htmlFor="message"
             className="text-sm font-medium text-gray-300"
@@ -49,16 +85,20 @@ const ContactUs = () => {
             placeholder="How can we help you?"
             className="w-full resize-none rounded-lg border border-gray-800 bg-[#0a0a0c] px-4 py-3 text-sm text-white transition-colors focus:border-[#6348ea] focus:ring-1 focus:ring-[#6348ea] focus:outline-none"
           ></textarea>
-        </div>
+        </motion.div>
 
-        <button
+        {/* Send Message Button with Hover and Tap Animations */}
+        <motion.button
           type="button"
-          className="mt-2 w-full rounded-lg bg-[#6348ea] py-3.5 font-medium text-white transition-colors hover:bg-[#5035cc]"
+          variants={itemVariants}
+          whileHover={{ scale: 1.02, backgroundColor: "#5035cc" }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-2 w-full rounded-lg bg-[#6348ea] py-3.5 font-medium text-white shadow-lg transition-colors"
         >
           Send Message
-        </button>
-      </form>
-    </section>
+        </motion.button>
+      </motion.form>
+    </motion.section>
   );
 };
 

@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router";
+import { motion } from "motion/react";
+// img
 import HeroImg from "../imgs/HeroImage.png";
 
 const HeroSection = () => {
@@ -9,36 +11,61 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
           {/* Left Content */}
           <div className="lg:col-span-6">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#6348ea]/30 bg-[#6348ea]/10 px-3 py-1 text-xs font-semibold tracking-wider text-[#6348ea] uppercase">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#6348ea]/30 bg-[#6348ea]/10 px-3 py-1 text-xs font-semibold tracking-wider text-[#6348ea] uppercase"
+            >
               <span className="flex h-1.5 w-1.5 animate-pulse rounded-full bg-[#6348ea]"></span>
               AI-Powered Interview Prep
-            </div>
+            </motion.div>
 
-            <h1 className="mb-6 text-4xl leading-tight font-extrabold tracking-tight text-white md:text-5xl lg:text-[3.5rem]">
+            <motion.h1
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+              className="mb-6 text-4xl leading-tight font-extrabold tracking-tight text-white md:text-5xl lg:text-[3.5rem]"
+            >
               Turn Any Job Description Into a{" "}
               <span className="bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
                 Winning Strategy.
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="mb-8 max-w-lg text-lg text-gray-400">
+            <motion.p
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+              className="mb-8 max-w-lg text-lg text-gray-400"
+            >
               Stop walking into interviews blind. ResumeForge instantly analyzes
               your resume against your target role to reveal exact skill gaps
               and generate a step-by-step prep plan to get you hired.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+              className="flex flex-col gap-4 sm:flex-row sm:items-center"
+            >
               <button
                 onClick={() => navigate("/register")}
                 className="rounded-lg bg-[#6348ea] px-8 py-3.5 font-medium text-white shadow-[0_0_20px_rgba(99,72,234,0.3)] transition-all duration-300 hover:bg-[#5035cc] hover:shadow-[0_0_25px_rgba(99,72,234,0.5)]"
               >
                 Start Your Free Analysis
               </button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Image */}
-          <div className="mt-10 lg:col-span-6 lg:mt-0">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.4, ease: "easeOut" }}
+            className="mt-10 lg:col-span-6 lg:mt-0"
+          >
             <div className="group relative w-full overflow-hidden rounded-xl border border-gray-800 bg-[#121214] p-1 shadow-2xl">
               <div className="flex gap-2 border-b border-gray-800/50 bg-[#0e0e11] px-4 py-2.5">
                 {/* Mac UI Dots */}
@@ -54,13 +81,18 @@ const HeroSection = () => {
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Bridging the Gap Section */}
+      {/* Bridging the Gap Section (Animates when scrolled into view) */}
       <section className="mx-auto max-w-4xl px-6 py-20">
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div className="rounded-2xl border border-gray-800 bg-[#121214] p-10 text-center md:p-16">
             <h2 className="mb-6 text-2xl font-bold text-white md:text-3xl">
               Bridging the Gap Between Talent and Opportunity.
@@ -73,7 +105,7 @@ const HeroSection = () => {
               tailored to you.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
     </>
   );
