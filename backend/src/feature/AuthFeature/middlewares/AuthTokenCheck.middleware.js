@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config from "../../../Config/Env.config.js";
+import config from "../../../Configuration/Env.config.js";
 
 //model
 import SessionModel from "../model/Session.model.js";

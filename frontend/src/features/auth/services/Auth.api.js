@@ -61,3 +61,14 @@ export const LogoutfromAllDeviceApi = async () => {
     handleApiError(error);
   }
 };
+// User Feedback Api
+export const ContactUsApi = async ({ username, email, Userfeedback }) => {
+  try {
+    const res = await api.post("/contactus", { username, email, Userfeedback });
+    return res;
+  }
+  catch (error) {
+    handleApiError(error);
+  }
+};
+

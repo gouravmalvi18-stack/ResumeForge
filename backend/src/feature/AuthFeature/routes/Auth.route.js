@@ -5,13 +5,15 @@ const router = Router();
 import {
   RegisterController,
   VerifyEmailController,
+  ResendOtpController,
+} from "../controllers/RegisterAndEmailVerication.controllers.js";
+import {
   LoginController,
-  RefreshTokenController,
   LogoutController,
   LogoutAlldevicesController,
-  ResendOtpController,
-  GetMeController,
-} from "../controllers/Auth.controller.js";
+} from "../controllers/LoginAndLogout.controllers.js";
+import { RefreshTokenController } from "../controllers/Refreshtoken.controller.js";
+import { GetMeController } from "../controllers/GetMe.controller.js";
 
 import AuthTokenCheckMiddleware from "../middlewares/AuthTokenCheck.middleware.js";
 

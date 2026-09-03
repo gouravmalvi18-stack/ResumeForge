@@ -15,6 +15,7 @@ import {
   LoginApi,
   LogoutfromCurrentDeviceApi,
   LogoutfromAllDeviceApi,
+  ContactUsApi,
 } from "../services/Auth.api.js";
 
 /**
@@ -124,6 +125,20 @@ export const useAuth = () => {
     }
   };
 
+  // Function to handle user feedback submission
+  const handleUserFeedback = async ({ username, email, Userfeedback }) => {
+    setLoading(true);
+    try {
+      const res = await ContactUsApi({ username, email, Userfeedback });
+      toast.success(res.data.message, { duration: 8000 });
+    } catch (error) {
+      toast.error(error.message);
+      console.log("handleUserFeedback ERR ::", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     User,
     Loading,
@@ -133,5 +148,6 @@ export const useAuth = () => {
     handleLogin,
     handleLogoutfromCurrentDevice,
     handleLogoutfromAllDevice,
+    handleUserFeedback,
   };
 };

@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import config from "../../../Config/Env.config.js";
+import config from "../../../Configuration/Env.config.js";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -28,9 +28,20 @@ export const sendOtp = async (to, subject, text, html) => {
       text, // plain text body
       html, // html body
     });
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
+};
 
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+export const ReceiveFeedbackFromUser = async (userEmail, subject, html) => {
+  try {
+    const info = await transporter.sendMail({
+      from: `"ResumeForge Feedback" <${config.EMAIL_USER}>`,
+      to: config.EMAIL_USER,
+      replyTo: userEmail,
+      subject, // Subject line
+      html, // html body
+    });
   } catch (error) {
     console.error("Error sending email:", error);
   }

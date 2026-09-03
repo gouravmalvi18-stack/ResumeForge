@@ -1,4 +1,4 @@
-import config from "../../../Config/Env.config.js";
+import config from "../../../Configuration/Env.config.js";
 
 // packages
 import { GoogleGenAI } from "@google/genai";
