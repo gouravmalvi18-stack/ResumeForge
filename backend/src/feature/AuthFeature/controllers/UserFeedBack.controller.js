@@ -1,6 +1,4 @@
 import UserFeedbackModel from "../model/UserFeedback.model.js";
-import { ReceiveFeedbackFromUser } from "../services/Email.service.js";
-import { getFeedbackHtml } from "../utils/Email.utils.js";
 
 export const UserFeedbackController = async (req, res) => {
   try {
@@ -18,12 +16,9 @@ export const UserFeedbackController = async (req, res) => {
       Userfeedback,
     });
 
-    const feedbackHtml = getFeedbackHtml(Userfeedback);
-
-    await ReceiveFeedbackFromUser(email, "User Feedback", feedbackHtml);
-
     res.status(200).json({
-      message: "Feedback submitted successfully",
+      message:
+        "Thank you for your feedback! We appreciate your input and we will use it to improve our service.",
     });
   } catch (error) {
     res.status(500).json({

@@ -30,9 +30,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginUser = async (data) => {
-    const { email, password } = data;
-
-    await handleLogin({ email, password });
+    await handleLogin(data);
     reset();
   };
 

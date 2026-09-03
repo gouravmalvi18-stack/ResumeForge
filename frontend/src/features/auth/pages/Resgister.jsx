@@ -30,8 +30,7 @@ const Resgister = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterUser = async (data) => {
-    const { username, email, password } = data;
-    await handleRegister({ username, email, password });
+    await handleRegister(data);
     reset();
   };
 

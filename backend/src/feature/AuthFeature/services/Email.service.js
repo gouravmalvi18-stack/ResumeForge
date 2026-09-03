@@ -32,17 +32,3 @@ export const sendOtp = async (to, subject, text, html) => {
     console.error("Error sending email:", error);
   }
 };
-
-export const ReceiveFeedbackFromUser = async (userEmail, subject, html) => {
-  try {
-    const info = await transporter.sendMail({
-      from: `"ResumeForge Feedback" <${config.EMAIL_USER}>`,
-      to: config.EMAIL_USER,
-      replyTo: userEmail,
-      subject, // Subject line
-      html, // html body
-    });
-  } catch (error) {
-    console.error("Error sending email:", error);
-  }
-};
