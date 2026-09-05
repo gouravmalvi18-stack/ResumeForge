@@ -63,10 +63,10 @@ const EmailVerfication = () => {
   return (
     <>
       {/* Background layer matching Login/Register */}
-      <div className="fixed inset-0 -z-10 bg-black bg-[radial-gradient(circle_at_80%_100%,rgba(219,39,119,0.25),transparent_55%),radial-gradient(circle_at_20%_0%,rgba(30,27,75,0.4),transparent_50%)] bg-fixed"></div>
+      <div className="fixed inset-0 z-0 bg-black bg-[radial-gradient(circle_at_80%_100%,rgba(219,39,119,0.25),transparent_55%),radial-gradient(circle_at_20%_0%,rgba(30,27,75,0.4),transparent_50%)] bg-fixed"></div>
 
       {/* Main Container - Added px-4 for mobile spacing */}
-      <div className="flex min-h-screen w-full items-center justify-center px-4 py-10">
+      <div className="relative z-10 flex min-h-screen w-full items-center justify-center px-4 py-10">
         {Loading ? (
           <AuthLoader text={"Wait a Moment ..."} />
         ) : (

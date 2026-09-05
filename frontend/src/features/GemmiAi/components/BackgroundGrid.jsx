@@ -1,6 +1,6 @@
 const BackgroundGrid = ({ children }) => {
   return (
-    <div className="min-h-screen overflow-hidden bg-neutral-900/30 font-body-md text-on-surface">
+    <div className="min-h-[100dvh] overflow-hidden bg-neutral-900/30 font-body-md text-on-surface">
       <div className="relative flex flex-col">
         {/* Decorative Ambient Background */}
         <div className="pointer-events-none absolute inset-0 z-0">
@@ -28,7 +28,7 @@ const BackgroundGrid = ({ children }) => {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-20 min-h-screen overflow-hidden">
+        <div className="relative z-20 min-h-[100dvh] overflow-hidden">
           {children}
         </div>
       </div>

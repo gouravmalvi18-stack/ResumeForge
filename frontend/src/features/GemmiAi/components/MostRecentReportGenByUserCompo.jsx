@@ -72,7 +72,7 @@ const MostRecentReportGenByUserCompo = () => {
   };
 
   return (
-    <div className="mt-8 flex w-full flex-col gap-6 px-4 lg:w-[35%] lg:px-0">
+    <div className="mt-8 flex w-full flex-col gap-6 px-4 lg:w-[35%] pb-15 lg:px-0">
       {/* Sidebar Header */}
       <div className="flex items-center gap-3">
         <div className="h-6 w-1.5 shrink-0 rounded-full bg-secondary"></div>

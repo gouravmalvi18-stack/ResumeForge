@@ -43,7 +43,7 @@ const ContactUs = () => {
 
   if (Loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-[100dvh] items-center justify-center">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-700 border-t-[#6348ea]"></div>
       </div>
     );

@@ -29,7 +29,7 @@ const ReportPage = () => {
     <BackgroundGrid>
       {/* Loading State */}
       {Ailoading || !Report ? (
-        <div className="flex h-screen items-center justify-center">
+        <div className="flex min-h-[100dvh] items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-r-2 border-primary"></div>
             <p className="animate-pulse text-xl font-bold text-neutral-300">
@@ -38,12 +38,12 @@ const ReportPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex h-screen w-full overflow-hidden text-neutral-50">
+        <div className="flex h-[100dvh] w-full overflow-hidden text-neutral-50">
           {/* Left Sidebar */}
           <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} id={id} />
 
           {/* Main Content Area */}
-          <main className="h-full flex-1 overflow-y-auto scroll-smooth pl-2">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scroll-smooth pb-15 pl-2">
             <div className="px-2 py-10">
               <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-12">
                 {/* Center Column: Dynamic Content */}
