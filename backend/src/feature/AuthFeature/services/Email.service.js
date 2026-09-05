@@ -79,11 +79,6 @@ export const sendOtp = async (to, otpCode) => {
       templateParams,
     );
 
-    console.log(
-      "Email sent successfully via EmailJS:",
-      response.status,
-      response.text,
-    );
     return response;
   } catch (error) {
     console.error("Error sending email via EmailJS:", error);

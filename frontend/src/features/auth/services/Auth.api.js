@@ -20,7 +20,7 @@ export const RegisterApi = async ({ username, email, password }) => {
 export const EmailVerificationApi = async ({ otp, email }) => {
   try {
     const res = await api.patch("/auth/verify-email", { otp, email });
-    return res.data?.VerifiedUser;
+    return res;
   } catch (error) {
     handleApiError(error);
   }
@@ -66,9 +66,7 @@ export const ContactUsApi = async ({ username, email, Userfeedback }) => {
   try {
     const res = await api.post("/contactus", { username, email, Userfeedback });
     return res;
-  }
-  catch (error) {
+  } catch (error) {
     handleApiError(error);
   }
 };
-

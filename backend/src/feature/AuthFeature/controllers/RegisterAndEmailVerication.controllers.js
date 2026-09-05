@@ -26,10 +26,13 @@ export const RegisterController = async (req, res) => {
 
     const ExistingUser = await AuthModel.findOne({ email });
 
-    if (ExistingUser) {
+    if (ExistingUser && ExistingUser.isVerified === true) {
       return res.status(400).json({
         message: "Email already exist, Try with different Email",
       });
+    }
+    if (ExistingUser && ExistingUser.isVerified === false) {
+      await AuthModel.deleteOne({ email });
     }
 
     const passworHash = await bcrypt.hash(password, 10);
@@ -85,9 +88,14 @@ export const VerifyEmailController = async (req, res) => {
   try {
     const { otp, email } = req.body;
 
-    if (!otp || !email) {
+    if (!otp) {
       return res.status(400).json({
-        message: "Email and OTP both are required",
+        message: "OTP is required",
+      });
+    }
+    if (!email) {
+      return res.status(400).json({
+        message: "Email is required",
       });
     }
 
@@ -154,29 +162,32 @@ export const VerifyEmailController = async (req, res) => {
 export const ResendOtpController = async (req, res) => {
   const { email } = req.body;
   try {
-    const otp = genrateOtp();
-
-    const html = getOtpHtml(otp);
-    const otphash = crypto.createHash("sha256").update(otp).digest("hex");
-
+    if (!email) {
+      return res.status(400).json({
+        message: "Email is required",
+      });
+    }
     const User = await AuthModel.findOne({ email });
 
-    const DeletePreviousOtp = await OtpModel.deleteOne({ email });
-
+    const otp = genrateOtp();
+    const otphash = crypto.createHash("sha256").update(otp).digest("hex");
+    // Delete the previous otp if it exists
+    await OtpModel.deleteOne({ email });
+    // Expires time for otp is 5 min
     const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
 
-    const OtpEntry = await OtpModel.create({
-      userid: User._id,
-      email: User.email,
-      otphash,
-      expiresAt: expriresTime,
-    });
-
-    await sendOtp(User.email, "OTP Verification", `Your OTP is ${otp}`, html);
-
-    res.status(200).json({
-      message: "New Otp has been send to your Register Email",
-    });
+    const response = await sendOtp(email, otp);
+    if (response) {
+      const OtpEntry = await OtpModel.create({
+        userid: User._id,
+        email: User.email,
+        otphash,
+        expiresAt: expriresTime,
+      });
+      res.status(200).json({
+        message: "New Otp has been send to your Register Email",
+      });
+    }
   } catch (error) {
     res.status(500).json({
       message: `ResendOtpController ERR :: ${error}`,

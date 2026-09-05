@@ -57,9 +57,12 @@ export const useAuth = () => {
   const handleEmailVerification = async ({ otp, email }) => {
     setLoading(true);
     try {
-      const VerifiedUser = await EmailVerificationApi({ otp, email });
-
-      if (VerifiedUser.isVerified == true) navigate("/login");
+      const res = await EmailVerificationApi({ otp, email });
+      if (res.status === 400 && res.data.message === "Email is required") {
+        toast.error("Registration Failed, Please Register Again");
+        navigate("/register");
+      }
+      if (res.status === 200) navigate("/login");
     } catch (error) {
       toast.error(error.message);
       console.log("handleRegister ERR ::", error);
@@ -71,7 +74,10 @@ export const useAuth = () => {
   const handleResendOtp = async ({ email }) => {
     try {
       const res = await ResendOtpApi({ email });
-
+      if (res.status === 400 && res.data.message === "Email is required") {
+        toast.error("Registration Failed, Please Register Again");
+        navigate("/register");
+      }
       toast.success(res.data.message, { duration: 8000 });
     } catch (error) {
       toast.error(error.message);
