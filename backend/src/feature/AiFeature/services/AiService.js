@@ -137,9 +137,9 @@ ${jobDescription}
 `;
   let lastErr;
   try {
-    for (const model of AllModel) {
+    for (const Aimodel of AllModel) {
       const res = await ai.models.generateContent({
-        model,
+        model: Aimodel,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
