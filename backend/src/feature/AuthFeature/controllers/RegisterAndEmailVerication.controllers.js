@@ -6,7 +6,7 @@ import AuthModel from "../model/Auth.model.js";
 import OtpModel from "../model/Otp.model.js";
 
 //services
-import { genrateOtp, getOtpHtml } from "../utils/Email.utils.js";
+import { genrateOtp } from "../utils/Email.utils.js";
 import { sendOtp } from "../services/Email.service.js";
 
 /**
@@ -34,46 +34,41 @@ export const RegisterController = async (req, res) => {
 
     const passworHash = await bcrypt.hash(password, 10);
 
-    const NewUser = await AuthModel.create({
-      username,
-      email,
-      password: passworHash,
-    });
-
+    // OTP generation and hashing
     const otp = genrateOtp();
-
-    const html = getOtpHtml(otp);
     const otphash = crypto.createHash("sha256").update(otp).digest("hex");
-
-    const DeletePreviousOtp = await OtpModel.deleteOne({ email });
-
+    // DeletePreviousOtp
+    await OtpModel.deleteOne({ email });
+    // Expires time for otp is 5 min
     const expriresTime = new Date(Date.now() + 5 * 60 * 1000); //In 5 min
 
-    const OtpEntry = await OtpModel.create({
-      userid: NewUser._id,
-      email: NewUser.email,
-      otphash,
-      expiresAt: expriresTime,
-    });
+    const response = await sendOtp(email, otp);
 
-    await sendOtp(
-      NewUser.email,
-      "OTP Verification",
-      `Your OTP is ${otp}`,
-      html,
-    );
+    if (response) {
+      const NewUser = await AuthModel.create({
+        username,
+        email,
+        password: passworHash,
+      });
 
-    res.status(201).json({
-      message: "User Register Sucessfully",
-      NewUser: {
-        _id: NewUser._id,
-        username: NewUser.username,
+      const OtpEntry = await OtpModel.create({
+        userid: NewUser._id,
         email: NewUser.email,
-        isVerified: NewUser.isVerified,
-        createdAt: NewUser.createdAt,
-        updatedAt: NewUser.updatedAt,
-      },
-    });
+        otphash,
+        expiresAt: expriresTime,
+      });
+      res.status(201).json({
+        message: "User Register Sucessfully",
+        NewUser: {
+          _id: NewUser._id,
+          username: NewUser.username,
+          email: NewUser.email,
+          isVerified: NewUser.isVerified,
+          createdAt: NewUser.createdAt,
+          updatedAt: NewUser.updatedAt,
+        },
+      });
+    }
   } catch (error) {
     res.status(500).json({
       message: `RegisterController ERR :: ${error}`,
