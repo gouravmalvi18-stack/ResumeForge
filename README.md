@@ -8,17 +8,16 @@
 <br/>
 
 ## 🌐 Live Deployment
-Check out the live application here: **[ResumeForge](https://resumeforge-6d65.onrender.com/)**
+Check out the live application here: **[https://resumeforge-6d65.onrender.com](https://resumeforge-6d65.onrender.com/)**
 
 > **⚠️ Note:** This project is deployed using Render's free tier. The server spins down after periods of inactivity, so it may take **30 to 60 seconds** for the initial load. Please be patient!
 
 <br/>
 
 ## 📸 Preview
-*(Add a screenshot or GIF of your application below)*
-<br>
-<img src="insert_image_url_here.png" alt="ResumeForge Preview" width="100%">
+<img src="https://github.com/user-attachments/assets/06e2f37d-a23d-45a6-b3d0-7d0fc744b66b" alt="ResumeForge Preview" width="100%">
 
+<br/>
 <br/>
 
 ## ✨ Key Features
@@ -73,6 +72,7 @@ ResumeForge/
 - MongoDB Atlas Connection URL
 - Google Gemini API Key
 - EmailJS Credentials (Service ID, Template ID, Keys)
+- Jwt secret key 
 
 ### 2. Installation
 ```bash
