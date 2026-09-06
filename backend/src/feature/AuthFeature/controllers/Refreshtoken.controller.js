@@ -46,7 +46,7 @@ export const RefreshTokenController = async (req, res) => {
 
     if (!Session) {
       return res.status(400).json({
-        message: "User already logged out, Please login again!!",
+        message: "User already logged out, Please login again!",
       });
     }
 
