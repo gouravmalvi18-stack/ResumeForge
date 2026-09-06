@@ -154,5 +154,5 @@ npm run dev
 
 <p align="center">
   <i>"Success is where preparation and opportunity meet."</i><br>
-  <b>— Forge your path, bridge the skill gap, and land your dream role with ResumeForge. </b>
+  <b>— Forge your path, bridge the skill gap, and land your dream role with ResumeForge.</b>
 </p>
