@@ -104,7 +104,14 @@ const ai = new GoogleGenAI({
   apiKey: config.GEMINI_AI_API_KEY,
 });
 
-const AllModel = ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.0-flash"];
+const AllModel = [
+  "gemini-3.8-flash",
+  "gemini-3.7-flash",
+  "gemini-3.6-flash",
+  "gemini-3.5-flash",
+  "gemini-3.5-flash-lite",
+  "gemini-2.5-flash",
+];
 
 /**
  *
@@ -135,11 +142,15 @@ ${selfDescription}
 Job Description:
 ${jobDescription}
 `;
+
   let lastErr;
-  try {
-    for (const Aimodel of AllModel) {
+  // Loop through all models in the AllModel array
+  for (const modelName of AllModel) {
+    try {
+      // console.log(`Trying model: ${modelName}`);
+
       const res = await ai.models.generateContent({
-        model: Aimodel,
+        model: modelName,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -148,16 +159,19 @@ ${jobDescription}
       });
 
       return JSON.parse(res.text);
+    } catch (error) {
+      console.warn(`Model ${modelName} failed. Error: ${error.message}`);
+      lastErr = error; // Store the error to throw later if all models fail
+      // Loop continues to the next model in the array
     }
-  } catch (error) {
-    console.warn(`Model ${modelName} failed. Error: ${error.message}`);
-    lastErr = error; // Store the error to throw later if all models fail
-    // Loop continues to the next model in the array
   }
   // If the loop finishes without returning, all models have failed
+
   console.error("All fallback models failed.");
   throw new Error(
-    `Report generation failed after trying all fallback models. Last error: ${lastErr.message}`,
+    `Report generation failed after trying all fallback models. Last error: ${
+      lastErr?.message ?? "Unknown error"
+    }`,
   );
 };
 
