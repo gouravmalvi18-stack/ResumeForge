@@ -76,7 +76,11 @@ const Resgister = () => {
                     </label>
                     <input
                       {...register("username", {
-                        required: " Username is required",
+                        required: "Username is required",
+                        maxLength: {
+                          value: 10,
+                          message: "Username can be 10 characters long or less",
+                        },
                       })}
                       type="text"
                       placeholder="Enter your name"
